@@ -1,14 +1,13 @@
 // ./src/app/not-found.tsx
 import Link from 'next/link';
-import { ArrowRight, Search } from 'lucide-react';
+import { ArrowRight } from "lucide-react";
+import EmptyIllustration from "@/components/EmptyIllustration";
 
 export default function NotFound() {
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-16">
       <div className="max-w-md text-center space-y-6">
-        <div className="h-16 w-16 mx-auto rounded-full bg-[#f2e6f4] text-[#452453] flex items-center justify-center">
-          <Search className="h-7 w-7 stroke-[1.75]" aria-hidden="true" />
-        </div>
+        <EmptyIllustration className="mx-auto h-28 w-40" />
         <div className="space-y-2">
           <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#452453] block">
             Error 404

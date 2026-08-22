@@ -7,6 +7,7 @@ import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { X, ShoppingBag, ArrowRight, Truck, CreditCard } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import CartControl from './CartControl';
+import EmptyIllustration from "./EmptyIllustration";
 import { formatPriceUYU, calculateInstallmentsUYU } from '@/lib/format';
 
 export function CartDrawer() {
@@ -138,9 +139,7 @@ export function CartDrawer() {
               <div className="flex-1 overflow-y-auto px-6 py-2">
                 {items.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full text-center py-16">
-                    <div className="h-16 w-16 rounded-full bg-[#f2e6f4] flex items-center justify-center text-[#452453] mb-4">
-                      <ShoppingBag className="h-8 w-8 stroke-[1.5]" />
-                    </div>
+                    <EmptyIllustration className="mb-4 h-24 w-36" />
                     <h3 className="font-display text-lg font-bold text-[#241230]">Tu bolsa está vacía</h3>
                     <p className="text-[13px] text-[#7d7384] mt-1 max-w-xs font-body leading-relaxed">
                       Sumá prendas desde el catálogo y las vas a ver acá.

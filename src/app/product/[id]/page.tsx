@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Star, Truck, RotateCcw, ChevronRight, Check, CreditCard } from 'lucide-react';
+import { Star, Truck, RotateCcw, ChevronRight, CreditCard } from 'lucide-react';
 import prisma from '@/lib/prisma';
 import ProductDetailGallery from '@/components/ProductDetailGallery';
 import AddToCartButton from '@/components/AddToCartButton';
@@ -180,8 +180,11 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           </div>
 
           {/* Stock */}
-          <div className="flex items-center gap-2 text-[13px] font-semibold text-[#146043]">
-            <Check className="h-4 w-4" aria-hidden="true" />
+          <div className={`flex items-center gap-2.5 text-[13px] font-semibold ${product.stock > 0 ? "text-[#146043]" : "text-[#7d7384]"}`}>
+            <span
+              aria-hidden="true"
+              className={`dot-pulse inline-block h-2 w-2 rounded-full ${product.stock > 0 ? "bg-[#1f8a5f] text-[#1f8a5f]" : "bg-[#7d7384] text-[#7d7384]"}`}
+            />
             <span>
               {product.stock > 0
                 ? `Disponible: ${product.stock} unidades para despacho inmediato`

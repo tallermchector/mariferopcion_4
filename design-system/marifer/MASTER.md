@@ -129,3 +129,13 @@ Estado al 2026-08-22 (implementado en la misma sesión en que se generó este ar
 - Server Components por defecto; `'use client'` solo con hooks/eventos (hoy `Footer.tsx` es client sin necesidad aparente → revisar).
 - Datos en Server Components con Prisma (ya se cumple); no `useEffect` para carga inicial.
 - `next/image` con `sizes` correcto y `remotePatterns` acotados (ya se cumple); `priority` solo en LCP (hero), no en todas las cards `featured`.
+
+## 9. Alineación con `DESIGN.md` (2026-08-22)
+
+Ajustes aplicados a partir de `DESIGN.md` (raíz del repo), que amplía este archivo para Stitch:
+
+- Hero: titular con **fotos inline como puntuación visual** (`InlineWord` en `src/app/page.tsx`, píldoras `h-[0.72em]`); en mobile bajan del H1. H1 con `clamp(2.75rem, 5.6vw, 4.25rem)`. Sin elementos superpuestos sobre la foto (el pie "Colección otoño 2026 · Diseñado en Montevideo" va debajo). Un solo CTA primario; el ghost muestra el **descuento máximo real** calculado desde la BD.
+- Categorías: bento asimétrico 5/4/3 · 3/4/5 con foto de `Category.image` arriba y etiqueta abajo (sin texto sobre imagen); en mobile, filas compactas de una columna.
+- Motion: utilidad `.reveal` (cascada `animation-delay: calc(var(--index) * 90ms)`, solo `transform`/`opacity`) en franja de confianza, categorías y destacados; `.dot-pulse` como único micro-loop perpetuo (punto de stock en la ficha). Ambos respetan `prefers-reduced-motion` vía la regla global.
+- Empty states: `src/components/EmptyIllustration.tsx` (percha + prenda, paleta Marifer) en grilla, drawer, página de carrito y 404.
+- Copy/UI: eliminado `CATÁLOGO MARIFER // 2026`, sentence case en catálogo, píldoras de filtro y orden ≥ 44px, badge del carrito 12px, swatches sin `black`, footer "Comprar" con categorías reales.

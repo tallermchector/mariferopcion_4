@@ -15,7 +15,7 @@ export function Footer() {
               </span>
             </Link>
             <div className="text-[12px] font-bold tracking-[0.2em] text-[#caa8d3] uppercase">
-              MODA · TU ROPA DIARIA
+              Moda · Tu ropa diaria
             </div>
             <p className="text-[14px] text-[#e3cde8] max-w-sm leading-relaxed font-body">
               Tienda online uruguaya. Envíos a todo el país en 24 a 72 h hábiles.
@@ -27,26 +27,20 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Columna Comprar: Mujer, Hombre, Niños, Rebajas */}
+          {/* Columna Comprar: Vestidos, Blusas, Abrigos, Rebajas */}
           <div className="space-y-3">
             <h4 className="font-display font-bold text-white text-[15px] tracking-wide">
               Comprar
             </h4>
             <ul className="space-y-2 text-[14px] text-[#e3cde8]">
               <li>
-                <Link href="/products?category=vestidos" className="hover:text-white transition-colors">
-                  Mujer
-                </Link>
+                <Link href="/products?category=vestidos" className="hover:text-white transition-colors">Vestidos</Link>
               </li>
               <li>
-                <Link href="/products?category=camisas" className="hover:text-white transition-colors">
-                  Hombre
-                </Link>
+                <Link href="/products?category=blusas" className="hover:text-white transition-colors">Blusas</Link>
               </li>
               <li>
-                <Link href="/products?category=abrigos" className="hover:text-white transition-colors">
-                  Niños
-                </Link>
+                <Link href="/products?category=abrigos" className="hover:text-white transition-colors">Abrigos</Link>
               </li>
               <li>
                 <Link href="/products?sort=sale" className="text-[#d94f78] font-semibold hover:underline">
@@ -85,10 +79,10 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Columna MARIFER: Nuestra historia, Locales, Trabajá con nosotros */}
+          {/* Columna Marifer: Nuestra historia, Locales, Trabajá con nosotros */}
           <div className="space-y-3">
             <h4 className="font-display font-bold text-white text-[15px] tracking-wide">
-              MARIFER
+              Marifer
             </h4>
             <ul className="space-y-2 text-[14px] text-[#e3cde8]">
               <li>

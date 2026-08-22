@@ -153,7 +153,7 @@ export function Navbar() {
               {totalItems > 0 && (
                 <span
                   aria-hidden="true"
-                  className="absolute top-1 right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#c23b64] text-white text-[11px] font-mono-tabular font-bold flex items-center justify-center"
+                  className="absolute top-1 right-1 min-w-[20px] h-[20px] px-1 rounded-full bg-[#c23b64] text-white text-[12px] font-mono-tabular font-bold flex items-center justify-center"
                 >
                   {totalItems}
                 </span>

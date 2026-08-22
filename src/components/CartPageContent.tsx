@@ -7,6 +7,7 @@ import { motion, useReducedMotion } from 'motion/react';
 import { ShoppingBag, ArrowRight, Truck, ShieldCheck, CheckCircle2, Tag } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import CartControl from './CartControl';
+import EmptyIllustration from "./EmptyIllustration";
 import { formatPriceUYU, calculateInstallmentsUYU } from '@/lib/format';
 
 const VALID_PROMOS = ['MARIFER10', 'URUGUAY10', 'DESCUENTO10'];
@@ -92,9 +93,7 @@ export function CartPageContent() {
   if (items.length === 0) {
     return (
       <div className="py-20 text-center max-w-md mx-auto space-y-6">
-        <div className="h-20 w-20 rounded-full bg-[#f2e6f4] text-[#452453] flex items-center justify-center mx-auto">
-          <ShoppingBag className="h-10 w-10 stroke-[1.5]" aria-hidden="true" />
-        </div>
+        <EmptyIllustration className="mx-auto h-32 w-48" />
         <div>
           <h2 className="font-display font-bold text-2xl text-[#241230]">
             Tu bolsa está vacía

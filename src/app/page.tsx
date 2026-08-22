@@ -9,8 +9,34 @@ import type { ProductType } from '@/lib/types';
 
 export const revalidate = 60;
 
+// Bento asimétrico de categorías (DESIGN.md §6): dos filas espejadas 5/4/3 y 3/4/5 en una grilla de 12.
+const BENTO_SPANS = [
+  'lg:col-span-5',
+  'lg:col-span-4',
+  'lg:col-span-3',
+  'lg:col-span-3',
+  'lg:col-span-4',
+  'lg:col-span-5',
+];
+
+/** Foto pequeña dentro del titular: puntuación visual, alto de línea, forma de píldora. */
+function InlineWord({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
+  return (
+    <span
+      className={`relative inline-block h-[0.72em] w-[1.75em] align-[-0.08em] overflow-hidden rounded-full bg-[#241230] ring-2 ring-[#caa8d3]/40 mx-[0.06em] ${className}`}
+    >
+      <Image src={src} alt={alt} fill priority sizes="140px" className="object-cover" referrerPolicy="no-referrer" />
+    </span>
+  );
+}
+
+const HERO_INLINE = [
+  { src: 'https://picsum.photos/seed/marifer-hero-lino/320/160', alt: 'Detalle de tela de lino' },
+  { src: 'https://picsum.photos/seed/marifer-hero-rambla/320/160', alt: 'Caminando por la Rambla' },
+];
+
 export default async function HomePage() {
-  const [featuredProducts, categories] = await Promise.all([
+  const [featuredProducts, categories, saleProducts] = await Promise.all([
     prisma.product.findMany({
       where: { featured: true },
       take: 4,
@@ -25,206 +51,217 @@ export default async function HomePage() {
         },
       },
     }),
+    prisma.product.findMany({
+      where: { compareAtPrice: { not: null } },
+      select: { price: true, compareAtPrice: true },
+    }),
   ]);
 
-  // Orden editorial de las 6 categorías; el conteo sale de la BD
+  // Descuento máximo real del catálogo (nada de números redondos inventados)
+  const maxDiscount = saleProducts.reduce((max, p) => {
+    if (!p.compareAtPrice || p.compareAtPrice <= p.price) return max;
+    return Math.max(max, Math.round(((p.compareAtPrice - p.price) / p.compareAtPrice) * 100));
+  }, 0);
+
+  // Orden editorial de las 6 categorías; el conteo y la foto salen de la BD
   const categoryOrder = ['vestidos', 'blusas', 'pantalones', 'abrigos', 'camisas', 'polleras'];
   const categoryTiles = categories
-    .map((c) => ({ name: c.name, slug: c.slug, count: c._count.products }))
+    .map((c) => ({
+      name: c.name,
+      slug: c.slug,
+      count: c._count.products,
+      image: c.image ?? `https://picsum.photos/seed/marifer-cat-${c.slug}/400/400`,
+    }))
     .sort((a, b) => categoryOrder.indexOf(a.slug) - categoryOrder.indexOf(b.slug));
+
+  const trustItems = [
+    { icon: Truck, title: 'Envíos a todo el país', detail: '24 a 72 horas hábiles' },
+    { icon: RotateCcw, title: 'Cambios gratis', detail: '30 días desde la compra' },
+    { icon: CreditCard, title: '6 pagos sin recargo', detail: 'Con tarjetas uruguayas' },
+  ];
 
   return (
     <div className="w-full">
-      {/* 3. HERO SECTION (Fondo violeta #452453, grilla 55/45) */}
-      <section data-surface="dark" className="w-full bg-[#452453] text-white pt-8 pb-14 sm:pt-12 sm:pb-20 lg:pt-16 lg:pb-24">
+      {/* HERO: split-screen 7/5 sobre violeta, titular con fotos inline como puntuación visual */}
+      <section
+        data-surface="dark"
+        className="w-full bg-[#452453] text-white pt-10 pb-14 sm:pt-14 sm:pb-20 lg:pt-16 lg:pb-24"
+      >
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            
-            {/* Columna Izquierda (55% / col-span-7) */}
-            <div className="lg:col-span-7 flex flex-col justify-center space-y-6">
-              {/* Eyebrow en lavanda (#caa8d3) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+            {/* Texto (col-span-7) */}
+            <div className="lg:col-span-7 flex flex-col justify-center gap-6">
               <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#caa8d3]">
-                TEMPORADA OTOÑO 26
+                Temporada otoño 2026
               </span>
 
-              {/* H1 blanco "Tu ropa diaria, sin vueltas." */}
-              <h1 className="font-display font-extrabold text-white text-4xl sm:text-5xl lg:text-[60px] xl:text-[68px] leading-[1.04] tracking-[-0.025em]">
-                Tu ropa diaria, <br className="hidden sm:inline" />
+              <h1 className="font-display font-extrabold text-white text-[clamp(2.75rem,5.6vw,4.25rem)] leading-[1.04] tracking-[-0.025em] text-balance">
+                Tu ropa{' '}
+                <InlineWord {...HERO_INLINE[0]} className="hidden sm:inline-block" />{' '}
+                diaria,{' '}
+                <InlineWord {...HERO_INLINE[1]} className="hidden sm:inline-block" />{' '}
                 <span className="font-light italic text-[#caa8d3]">sin vueltas.</span>
               </h1>
 
-              {/* Párrafo lila (#e3cde8) */}
+              {/* En mobile las fotos inline bajan del titular (DESIGN.md §7) */}
+              <div className="flex sm:hidden items-center gap-2" aria-hidden="true">
+                {HERO_INLINE.map((img) => (
+                  <span
+                    key={img.src}
+                    className="relative h-10 w-24 overflow-hidden rounded-full bg-[#241230] ring-2 ring-[#caa8d3]/40"
+                  >
+                    <Image src={img.src} alt="" fill sizes="96px" className="object-cover" referrerPolicy="no-referrer" />
+                  </span>
+                ))}
+              </div>
+
               <p className="text-[16px] sm:text-[18px] text-[#e3cde8] max-w-[54ch] leading-[1.5] font-body">
                 Prendas para todos los días, con envío a todo Uruguay y cambios gratis dentro de los 30 días.
               </p>
 
-              {/* Botones de acción: Primario blanco + Ghost lila */}
-              <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
-                {/* Botón primario blanco con texto violeta (#452453) */}
+              {/* Un solo CTA primario; el ghost lleva a rebajas con el descuento real */}
+              <div className="pt-1 flex flex-wrap items-center gap-3 sm:gap-4">
                 <Link
                   href="/products"
                   id="hero-primary-cta"
-                  className="h-[50px] sm:h-[54px] px-8 rounded-full bg-white text-[#452453] text-[15px] font-bold hover:bg-[#f2e6f4] transition-all flex items-center justify-center gap-2 shadow-marifer-btn hover-lift cursor-pointer"
+                  className="h-[50px] sm:h-[54px] w-full sm:w-auto px-8 rounded-full bg-white text-[#452453] text-[15px] font-bold hover:bg-[#f2e6f4] active:translate-y-px transition-all flex items-center justify-center gap-2 shadow-marifer-btn hover-lift cursor-pointer"
                 >
                   <span>Ver el catálogo</span>
-                  <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                  <ArrowRight className="w-4 h-4 stroke-[2.5]" aria-hidden="true" />
                 </Link>
 
-                {/* Botón ghost "Rebajas hasta 40%" */}
-                <Link
-                  href="/products?sort=sale"
-                  id="hero-secondary-cta"
-                  className="h-[50px] sm:h-[54px] px-7 rounded-full border border-[#e3cde8] text-[#e3cde8] text-[15px] font-medium hover:bg-white/10 hover:text-white transition-all flex items-center justify-center cursor-pointer"
-                >
-                  <span>Rebajas hasta 40%</span>
-                </Link>
+                {maxDiscount > 0 && (
+                  <Link
+                    href="/products?sort=sale"
+                    id="hero-secondary-cta"
+                    className="h-[50px] sm:h-[54px] w-full sm:w-auto px-7 rounded-full border border-[#e3cde8] text-[#e3cde8] text-[15px] font-medium hover:bg-white/10 hover:text-white transition-colors flex items-center justify-center cursor-pointer"
+                  >
+                    <span>
+                      Rebajas hasta <span className="font-mono-tabular font-bold">{maxDiscount}%</span>
+                    </span>
+                  </Link>
+                )}
               </div>
             </div>
 
-            {/* Columna Derecha (45% / col-span-5) - Imagen 4:5 con radio 28px */}
-            <div className="lg:col-span-5 relative">
+            {/* Visual (col-span-5): foto 4:5 radio 28px, sin nada superpuesto; el pie va debajo */}
+            <div className="lg:col-span-5 space-y-3">
               <div className="relative aspect-[4/5] w-full rounded-[28px] overflow-hidden bg-[#241230] border border-[#caa8d3]/20 shadow-marifer-hover group">
                 <Image
                   src="https://picsum.photos/seed/marifer-otono26/800/1000"
-                  alt="Campaña Marifer Otoño 26"
+                  alt="Campaña Marifer otoño 2026"
                   fill
                   priority
                   sizes="(max-width: 1024px) 100vw, 45vw"
                   className="object-cover object-center group-hover:scale-[1.03] transition-transform duration-700 ease-out"
                   referrerPolicy="no-referrer"
                 />
-
-                {/* Badge sutil boutique */}
-                <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-[18px] bg-[#241230]/90 backdrop-blur-md border border-[#caa8d3]/25 text-white flex items-center justify-between">
-                  <div>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#caa8d3] block">
-                      Diseñado en Montevideo
-                    </span>
-                    <span className="font-display font-bold text-sm text-white">
-                      Colección Otoño 2026
-                    </span>
-                  </div>
-                  <span className="text-[12px] font-semibold px-3 py-1 rounded-full bg-[#452453] text-[#e3cde8] border border-[#e3cde8]/30">
-                    Prendas Nobles
-                  </span>
-                </div>
+              </div>
+              <div className="flex items-center justify-between px-1 text-[12px]">
+                <span className="font-bold uppercase tracking-[0.15em] text-[#caa8d3]">Colección otoño 2026</span>
+                <span className="font-semibold text-[#e3cde8]">Diseñado en Montevideo</span>
               </div>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* 4. FRANJA DE CONFIANZA (Fondo blanco #ffffff, 3 ítems en línea con ícono en círculo lila #f2e6f4) */}
+      {/* FRANJA DE CONFIANZA: fila dividida con cascada de entrada */}
       <section className="w-full bg-[#ffffff] border-y border-[#e8e3ec] py-6 sm:py-7">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 divide-y sm:divide-y-0 sm:divide-x divide-[#e8e3ec]">
-            
-            {/* Ítem 1 */}
-            <div className="flex items-center gap-4 pt-4 first:pt-0 sm:pt-0 sm:px-4 first:pl-0">
-              <div className="w-12 h-12 rounded-full bg-[#f2e6f4] text-[#452453] flex items-center justify-center shrink-0">
-                <Truck className="w-5 h-5 stroke-[2]" />
-              </div>
-              <div>
-                <h4 className="font-display font-bold text-[15px] text-[#241230] leading-snug">
-                  Envíos a todo el país
-                </h4>
-                <p className="text-[13px] text-[#7d7384] font-body mt-0.5">
-                  24 a 72 horas hábiles
-                </p>
-              </div>
-            </div>
-
-            {/* Ítem 2 */}
-            <div className="flex items-center gap-4 pt-4 sm:pt-0 sm:px-4">
-              <div className="w-12 h-12 rounded-full bg-[#f2e6f4] text-[#452453] flex items-center justify-center shrink-0">
-                <RotateCcw className="w-5 h-5 stroke-[2]" />
-              </div>
-              <div>
-                <h4 className="font-display font-bold text-[15px] text-[#241230] leading-snug">
-                  Cambios gratis
-                </h4>
-                <p className="text-[13px] text-[#7d7384] font-body mt-0.5">
-                  30 días desde la compra
-                </p>
-              </div>
-            </div>
-
-            {/* Ítem 3 */}
-            <div className="flex items-center gap-4 pt-4 sm:pt-0 sm:px-4 last:pr-0">
-              <div className="w-12 h-12 rounded-full bg-[#f2e6f4] text-[#452453] flex items-center justify-center shrink-0">
-                <CreditCard className="w-5 h-5 stroke-[2]" />
-              </div>
-              <div>
-                <h4 className="font-display font-bold text-[15px] text-[#241230] leading-snug">
-                  6 pagos sin recargo
-                </h4>
-                <p className="text-[13px] text-[#7d7384] font-body mt-0.5">
-                  Con tarjetas uruguayas
-                </p>
-              </div>
-            </div>
-
-          </div>
+          <ul className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 divide-y sm:divide-y-0 sm:divide-x divide-[#e8e3ec]">
+            {trustItems.map((item, i) => (
+              <li
+                key={item.title}
+                style={{ '--index': i } as React.CSSProperties}
+                className="reveal flex items-center gap-4 pt-4 first:pt-0 sm:pt-0 sm:px-4 first:pl-0 last:pr-0"
+              >
+                <div className="w-12 h-12 rounded-full bg-[#f2e6f4] text-[#452453] flex items-center justify-center shrink-0">
+                  <item.icon className="w-5 h-5 stroke-[2]" aria-hidden="true" />
+                </div>
+                <div>
+                  <p className="font-display font-bold text-[15px] text-[#241230] leading-snug">{item.title}</p>
+                  <p className="text-[13px] text-[#7d7384] font-body mt-0.5">{item.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* 5. COMPRAR POR CATEGORÍA (6 tiles píldora-rectángulo, 92px alto) */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 pt-14 sm:pt-18">
-        <div className="mb-6">
-          <h2 className="font-display font-bold text-[20px] text-[#241230]">
+      {/* CATEGORÍAS: bento asimétrico 5/4/3 · 3/4/5 con foto arriba y etiqueta abajo (sin texto sobre imagen) */}
+      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 pt-[clamp(3rem,6vw,4.5rem)]">
+        <div className="mb-6 flex items-baseline justify-between">
+          <h2 className="font-display font-bold text-[clamp(1.5rem,3vw,1.75rem)] text-[#241230]">
             Comprar por categoría
           </h2>
+          <span className="text-[13px] text-[#7d7384] font-body hidden sm:inline">Elegí por dónde empezar</span>
         </div>
 
-        {/* 6 tiles píldora-rectángulo: fondo lila suave #f2e6f4, borde lila #e3cde8, 92px alto */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-          {categoryTiles.map((cat) => (
-            <Link
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 sm:gap-4">
+          {categoryTiles.map((cat, i) => (
+            <li
               key={cat.slug}
-              href={`/products?category=${cat.slug}`}
-              id={`cat-tile-${cat.slug}`}
-              className="h-[92px] rounded-[16px] bg-[#f2e6f4] border border-[#e3cde8] p-3.5 flex flex-col justify-end text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-marifer-hover hover:border-[#452453] group cursor-pointer"
+              style={{ '--index': i } as React.CSSProperties}
+              className={`reveal ${BENTO_SPANS[i] ?? 'lg:col-span-4'}`}
             >
-              <span className="font-display font-bold text-[16px] text-[#241230] group-hover:text-[#452453] transition-colors leading-tight">
-                {cat.name}
-              </span>
-              <span className="text-[12px] text-[#403945] font-body mt-0.5">
-                {cat.count} {cat.count === 1 ? 'prenda' : 'prendas'}
-              </span>
-            </Link>
+              <Link
+                href={`/products?category=${cat.slug}`}
+                id={`cat-tile-${cat.slug}`}
+                className="group flex sm:flex-col h-full rounded-[16px] bg-[#f2e6f4] border border-[#e3cde8] p-2.5 sm:p-3 gap-3 hover-lift hover:border-[#452453] cursor-pointer"
+              >
+                <div className="relative shrink-0 h-20 w-24 sm:h-[168px] sm:w-full overflow-hidden rounded-[10px] bg-[#e3cde8]">
+                  <Image
+                    src={cat.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 96px, (max-width: 1024px) 50vw, 40vw"
+                    className="object-cover object-center group-hover:scale-[1.04] transition-transform duration-500 ease-out"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <div className="flex flex-1 items-center sm:items-end justify-between gap-2 sm:px-1 sm:pb-0.5">
+                  <span className="font-display font-bold text-[17px] text-[#241230] group-hover:text-[#452453] transition-colors leading-tight">
+                    {cat.name}
+                  </span>
+                  <span className="text-[12px] font-semibold text-[#403945] font-mono-tabular whitespace-nowrap">
+                    {cat.count} {cat.count === 1 ? 'prenda' : 'prendas'}
+                  </span>
+                </div>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
-      {/* 6. LO MÁS ELEGIDO (H2 28px + grilla de 4 tarjetas de producto) */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 pt-14 sm:pt-18">
+      {/* LO MÁS ELEGIDO: H2 + 4 cards con cascada */}
+      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 pt-[clamp(3rem,6vw,4.5rem)]">
         <div className="flex items-baseline justify-between mb-8">
-          <h2 className="font-display font-bold text-[28px] text-[#241230]">
+          <h2 className="font-display font-bold text-[clamp(1.75rem,3vw,2rem)] text-[#241230]">
             Lo más elegido
           </h2>
           <Link
             href="/products"
-            className="text-[14px] font-semibold text-[#452453] hover:underline inline-flex items-center gap-1 group"
+            className="text-[14px] font-semibold text-[#452453] hover:underline inline-flex items-center gap-1 group h-11"
           >
             <span>Ver todo</span>
-            <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
           </Link>
         </div>
 
-        {/* Grilla de 4 tarjetas */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product as unknown as ProductType} />
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+          {featuredProducts.map((product, i) => (
+            <li key={product.id} style={{ '--index': i } as React.CSSProperties} className="reveal h-full">
+              <ProductCard product={product as unknown as ProductType} />
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
-      {/* 7. SECCIÓN EDITORIAL ZIG-ZAG (Montevideo Lifestyle & Calidad) */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 pt-16 sm:pt-22 pb-16 sm:pb-24">
+      {/* EDITORIAL ZIG-ZAG */}
+      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 pt-[clamp(3.5rem,7vw,5.5rem)] pb-[clamp(3.5rem,7vw,6rem)]">
         <div className="space-y-12 sm:space-y-16">
-          
-          {/* Bloque 1: Imagen izquierda, Texto derecha */}
+          {/* Bloque 1: imagen izquierda, texto derecha */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-6">
               <div className="relative aspect-[4/3] w-full rounded-[24px] overflow-hidden bg-[#f2e6f4] border border-[#e8e3ec] shadow-marifer-sm">
@@ -240,45 +277,45 @@ export default async function HomePage() {
             </div>
             <div className="lg:col-span-6 space-y-4">
               <span className="text-[12px] font-bold uppercase tracking-[0.16em] text-[#452453] block">
-                CONFECCIÓN CONSCIENTE
+                Confección consciente
               </span>
               <h3 className="font-display font-bold text-2xl sm:text-3xl text-[#241230] leading-snug">
                 Materiales nobles para tu día a día
               </h3>
-              <p className="text-[15px] text-[#403945] font-body leading-relaxed max-w-lg">
+              <p className="text-[16px] text-[#403945] font-body leading-relaxed max-w-lg">
                 Seleccionamos lino puro, algodón hilado y lana merino uruguaya. Prendas que no necesitan ocasiones especiales para brillar: cómodas desde la mañana en la oficina hasta una caminata al atardecer.
               </p>
               <div className="pt-2">
                 <Link
-                  href="/about"
-                  className="inline-flex items-center gap-2 text-[14px] font-bold text-[#452453] hover:underline"
+                  href="/products?category=vestidos"
+                  className="inline-flex items-center gap-2 h-11 text-[14px] font-bold text-[#452453] hover:underline"
                 >
-                  <span>Conocé nuestra historia</span>
-                  <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                  <span>Conocé los vestidos de lino</span>
+                  <ArrowRight className="w-4 h-4 stroke-[2.5]" aria-hidden="true" />
                 </Link>
               </div>
             </div>
           </div>
 
-          {/* Bloque 2: Texto izquierda, Imagen derecha */}
+          {/* Bloque 2: texto izquierda, imagen derecha */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-6 order-2 lg:order-1 space-y-4">
               <span className="text-[12px] font-bold uppercase tracking-[0.16em] text-[#452453] block">
-                COMPROMISO URUGUAYO
+                Compromiso uruguayo
               </span>
               <h3 className="font-display font-bold text-2xl sm:text-3xl text-[#241230] leading-snug">
                 Atención cercana y envíos ágiles
               </h3>
-              <p className="text-[15px] text-[#403945] font-body leading-relaxed max-w-lg">
+              <p className="text-[16px] text-[#403945] font-body leading-relaxed max-w-lg">
                 Comprá con total tranquilidad. Si el talle no es el indicado, tenés 30 días para cambiarlo sin costo adicional en cualquiera de nuestros canales.
               </p>
               <div className="pt-2">
                 <Link
-                  href="/products"
-                  className="inline-flex items-center gap-2 text-[14px] font-bold text-[#452453] hover:underline"
+                  href="/products?sort=newest"
+                  className="inline-flex items-center gap-2 h-11 text-[14px] font-bold text-[#452453] hover:underline"
                 >
                   <span>Explorar novedades</span>
-                  <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                  <ArrowRight className="w-4 h-4 stroke-[2.5]" aria-hidden="true" />
                 </Link>
               </div>
             </div>
@@ -286,7 +323,7 @@ export default async function HomePage() {
               <div className="relative aspect-[4/3] w-full rounded-[24px] overflow-hidden bg-[#f2e6f4] border border-[#e8e3ec] shadow-marifer-sm">
                 <Image
                   src="https://picsum.photos/seed/marifer-boutique-mvd/800/600"
-                  alt="Boutique Marifer Montevideo"
+                  alt="Boutique Marifer en Montevideo"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
@@ -295,11 +332,8 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-
         </div>
       </section>
     </div>
   );
 }
-
-

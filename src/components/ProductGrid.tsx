@@ -4,7 +4,7 @@
 import React from 'react';
 import { motion, Variants, useReducedMotion } from 'motion/react';
 import Link from 'next/link';
-import { ShoppingBag } from 'lucide-react';
+import EmptyIllustration from "./EmptyIllustration";
 import ProductCard from './ProductCard';
 import type { ProductType } from '@/lib/types';
 
@@ -49,9 +49,7 @@ export function ProductGrid({
   if (products.length === 0) {
     return (
       <div className="py-20 px-4 text-center max-w-md mx-auto">
-        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#f2e6f4] flex items-center justify-center text-[#452453]">
-          <ShoppingBag className="w-8 h-8" aria-hidden="true" />
-        </div>
+        <EmptyIllustration className="mx-auto mb-5 h-28 w-40" />
         <h3 className="font-display text-xl font-bold text-[#241230]">
           No hay prendas para mostrar
         </h3>

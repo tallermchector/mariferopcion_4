@@ -72,10 +72,10 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       <div className="border-b border-[#e8e3ec] pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#452453]">
-            CATÁLOGO MARIFER // 2026
+            Catálogo Marifer
           </span>
           <h1 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl text-[#241230] tracking-tight mt-1">
-            {activeCategory ? activeCategory.name : (sortBy === 'sale' ? 'Rebajas de Temporada' : 'Todas las Prendas')}
+            {activeCategory ? activeCategory.name : (sortBy === 'sale' ? 'Rebajas de temporada' : 'Todas las prendas')}
           </h1>
           <p className="text-[13px] sm:text-sm text-[#7d7384] font-body mt-1" aria-live="polite">
             {products.length} {products.length === 1 ? 'modelo disponible' : 'modelos disponibles para envío a todo el país'}
@@ -91,7 +91,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                 ...(categorySlug && { category: categorySlug }),
                 sort: 'newest',
               }).toString()}`}
-              className={`px-3.5 py-1.5 rounded-full font-medium transition-all ${
+              className={`h-9 px-3.5 inline-flex items-center rounded-full font-medium transition-all ${
                 sortBy === 'newest'
                   ? 'bg-[#452453] text-white font-semibold shadow-xs'
                   : 'text-[#7d7384] hover:text-[#241230]'
@@ -104,33 +104,29 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                 ...(categorySlug && { category: categorySlug }),
                 sort: 'price-asc',
               }).toString()}`}
-              className={`px-3.5 py-1.5 rounded-full font-medium transition-all ${
+              className={`h-9 px-3.5 inline-flex items-center rounded-full font-medium transition-all ${
                 sortBy === 'price-asc'
                   ? 'bg-[#452453] text-white font-semibold shadow-xs'
                   : 'text-[#7d7384] hover:text-[#241230]'
               }`}
-            >
-              Menor Precio
-            </Link>
+            >Menor precio</Link>
             <Link
               href={`/products?${new URLSearchParams({
                 ...(categorySlug && { category: categorySlug }),
                 sort: 'price-desc',
               }).toString()}`}
-              className={`px-3.5 py-1.5 rounded-full font-medium transition-all ${
+              className={`h-9 px-3.5 inline-flex items-center rounded-full font-medium transition-all ${
                 sortBy === 'price-desc'
                   ? 'bg-[#452453] text-white font-semibold shadow-xs'
                   : 'text-[#7d7384] hover:text-[#241230]'
               }`}
-            >
-              Mayor Precio
-            </Link>
+            >Mayor precio</Link>
             <Link
               href={`/products?${new URLSearchParams({
                 ...(categorySlug && { category: categorySlug }),
                 sort: 'sale',
               }).toString()}`}
-              className={`px-3.5 py-1.5 rounded-full font-medium transition-all ${
+              className={`h-9 px-3.5 inline-flex items-center rounded-full font-medium transition-all ${
                 sortBy === 'sale'
                   ? 'bg-[#c23b64] text-white font-semibold shadow-xs'
                   : 'text-[#c23b64] hover:text-[#241230]'
@@ -146,13 +142,13 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none">
         <Link
           href={`/products?${sortBy ? `sort=${sortBy}` : ''}`}
-          className={`px-5 py-2.5 rounded-full text-xs font-semibold transition-all whitespace-nowrap ${
+          className={`h-11 px-5 inline-flex items-center rounded-full text-[13px] font-semibold transition-all whitespace-nowrap ${
             !categorySlug || categorySlug === 'all'
               ? 'bg-[#452453] text-white shadow-xs'
               : 'bg-white border border-[#e8e3ec] text-[#7d7384] hover:text-[#241230] hover:bg-[#f2e6f4]'
           }`}
         >
-          Todas las Prendas
+          Todas las prendas
         </Link>
         {categories.map((cat) => {
           const isSelected = categorySlug === cat.slug;
@@ -160,7 +156,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             <Link
               key={cat.id}
               href={`/products?category=${cat.slug}${sortBy ? `&sort=${sortBy}` : ''}`}
-              className={`px-5 py-2.5 rounded-full text-xs font-semibold transition-all whitespace-nowrap ${
+              className={`h-11 px-5 inline-flex items-center rounded-full text-[13px] font-semibold transition-all whitespace-nowrap ${
                 isSelected
                   ? 'bg-[#452453] text-white shadow-xs'
                   : 'bg-white border border-[#e8e3ec] text-[#7d7384] hover:text-[#241230] hover:bg-[#f2e6f4]'
