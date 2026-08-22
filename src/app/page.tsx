@@ -25,7 +25,7 @@ function InlineWord({ src, alt, className = '' }: { src: string; alt: string; cl
     <span
       className={`relative inline-block h-[0.72em] w-[1.75em] align-[-0.08em] overflow-hidden rounded-full bg-[#241230] ring-2 ring-[#caa8d3]/40 mx-[0.06em] ${className}`}
     >
-      <Image src={src} alt={alt} fill priority sizes="140px" className="object-cover" referrerPolicy="no-referrer" />
+      <Image src={src} alt={alt} fill sizes="140px" className="object-cover" referrerPolicy="no-referrer" />
     </span>
   );
 }

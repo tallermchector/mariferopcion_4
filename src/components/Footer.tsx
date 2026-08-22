@@ -57,47 +57,52 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-[14px] text-[#e3cde8]">
               <li>
-                <Link href="/faq#envios" className="hover:text-white transition-colors">
-                  Envíos
+                <Link href="/products?category=vestidos" className="hover:text-white transition-colors">
+                  Envíos y entregas
                 </Link>
               </li>
               <li>
-                <Link href="/faq#cambios" className="hover:text-white transition-colors">
+                <Link href="/products?category=blusas" className="hover:text-white transition-colors">
                   Cambios y devoluciones
                 </Link>
               </li>
               <li>
-                <Link href="/faq#talles" className="hover:text-white transition-colors">
+                <Link href="/products?category=pantalones" className="hover:text-white transition-colors">
                   Guía de talles
                 </Link>
               </li>
               <li>
-                <Link href="/faq#contacto" className="hover:text-white transition-colors">
+                <Link href="/products?category=abrigos" className="hover:text-white transition-colors">
                   Contacto
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Columna Marifer: Nuestra historia, Locales, Trabajá con nosotros */}
+          {/* Columna Marifer: Categorías reales */}
           <div className="space-y-3">
             <h4 className="font-display font-bold text-white text-[15px] tracking-wide">
-              Marifer
+              Categorías
             </h4>
             <ul className="space-y-2 text-[14px] text-[#e3cde8]">
               <li>
-                <Link href="/about" className="hover:text-white transition-colors">
-                  Nuestra historia
+                <Link href="/products?category=camisas" className="hover:text-white transition-colors">
+                  Camisas
                 </Link>
               </li>
               <li>
-                <Link href="/stores" className="hover:text-white transition-colors">
-                  Locales
+                <Link href="/products?category=polleras" className="hover:text-white transition-colors">
+                  Polleras
                 </Link>
               </li>
               <li>
-                <Link href="/careers" className="hover:text-white transition-colors">
-                  Trabajá con nosotros
+                <Link href="/products?sort=newest" className="hover:text-white transition-colors">
+                  Novedades
+                </Link>
+              </li>
+              <li>
+                <Link href="/products?sort=sale" className="text-[#caa8d3] font-semibold hover:underline hover:text-white transition-colors">
+                  Rebajas
                 </Link>
               </li>
             </ul>
