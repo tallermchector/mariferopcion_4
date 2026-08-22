@@ -12,11 +12,13 @@ export const revalidate = 60;
 export default async function HomePage() {
   const [featuredProducts, categories] = await Promise.all([
     prisma.product.findMany({
+      where: { featured: true },
       take: 4,
       orderBy: { id: 'asc' },
       include: { category: true },
     }),
     prisma.category.findMany({
+      orderBy: { name: 'asc' },
       include: {
         _count: {
           select: { products: true },
@@ -25,20 +27,16 @@ export default async function HomePage() {
     }),
   ]);
 
-  // Lista de 6 categorías exactas requeridas por el prompt
-  const categoryTiles = [
-    { name: 'Vestidos', slug: 'vestidos', count: 12 },
-    { name: 'Blusas', slug: 'blusas', count: 8 },
-    { name: 'Pantalones', slug: 'pantalones', count: 10 },
-    { name: 'Abrigos', slug: 'abrigos', count: 9 },
-    { name: 'Camisas', slug: 'camisas', count: 7 },
-    { name: 'Polleras', slug: 'polleras', count: 6 },
-  ];
+  // Orden editorial de las 6 categorías; el conteo sale de la BD
+  const categoryOrder = ['vestidos', 'blusas', 'pantalones', 'abrigos', 'camisas', 'polleras'];
+  const categoryTiles = categories
+    .map((c) => ({ name: c.name, slug: c.slug, count: c._count.products }))
+    .sort((a, b) => categoryOrder.indexOf(a.slug) - categoryOrder.indexOf(b.slug));
 
   return (
     <div className="w-full">
       {/* 3. HERO SECTION (Fondo violeta #452453, grilla 55/45) */}
-      <section className="w-full bg-[#452453] text-white pt-8 pb-14 sm:pt-12 sm:pb-20 lg:pt-16 lg:pb-24">
+      <section data-surface="dark" className="w-full bg-[#452453] text-white pt-8 pb-14 sm:pt-12 sm:pb-20 lg:pt-16 lg:pb-24">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             
@@ -191,8 +189,8 @@ export default async function HomePage() {
               <span className="font-display font-bold text-[16px] text-[#241230] group-hover:text-[#452453] transition-colors leading-tight">
                 {cat.name}
               </span>
-              <span className="text-[12px] text-[#7d7384] font-body mt-0.5">
-                {cat.count} prendas
+              <span className="text-[12px] text-[#403945] font-body mt-0.5">
+                {cat.count} {cat.count === 1 ? 'prenda' : 'prendas'}
               </span>
             </Link>
           ))}

@@ -1,12 +1,10 @@
 // ./src/components/Footer.tsx
-'use client';
-
 import React from 'react';
 import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer className="w-full bg-[#241230] text-white pt-16 pb-12 border-t border-[#452453]">
+    <footer data-surface="dark" className="w-full bg-[#241230] text-white pt-16 pb-12 border-t border-[#452453]">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12 pb-12 border-b border-[#452453]">
           {/* Brand Info */}
@@ -16,7 +14,7 @@ export function Footer() {
                 Marifer
               </span>
             </Link>
-            <div className="text-[11px] font-bold tracking-[0.2em] text-[#caa8d3] uppercase">
+            <div className="text-[12px] font-bold tracking-[0.2em] text-[#caa8d3] uppercase">
               MODA · TU ROPA DIARIA
             </div>
             <p className="text-[14px] text-[#e3cde8] max-w-sm leading-relaxed font-body">

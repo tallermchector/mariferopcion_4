@@ -51,8 +51,8 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   } else if (sortBy === 'rating') {
     orderByClause = { rating: 'desc' };
   } else if (sortBy === 'sale') {
-    // Si viene de rebajas
-    whereClause.originalPrice = { not: null };
+    // Rebajas: solo prendas con precio anterior
+    whereClause.compareAtPrice = { not: null };
   }
 
   // Consulta directa a la base de datos (RSC)
@@ -77,15 +77,15 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
           <h1 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl text-[#241230] tracking-tight mt-1">
             {activeCategory ? activeCategory.name : (sortBy === 'sale' ? 'Rebajas de Temporada' : 'Todas las Prendas')}
           </h1>
-          <p className="text-xs sm:text-sm text-[#7d7384] font-body mt-1">
+          <p className="text-[13px] sm:text-sm text-[#7d7384] font-body mt-1" aria-live="polite">
             {products.length} {products.length === 1 ? 'modelo disponible' : 'modelos disponibles para envío a todo el país'}
           </p>
         </div>
 
         {/* Barra de Ordenamiento */}
-        <div className="flex items-center gap-2.5">
-          <span className="text-xs font-semibold text-[#7d7384]">Ordenar:</span>
-          <div className="flex rounded-full border border-[#e8e3ec] bg-white p-1 text-xs shadow-marifer-sm">
+        <div className="flex items-center gap-2.5 max-w-full overflow-x-auto scrollbar-none pb-1 -mb-1">
+          <span className="text-[13px] font-semibold text-[#7d7384] whitespace-nowrap">Ordenar:</span>
+          <div className="flex flex-shrink-0 rounded-full border border-[#e8e3ec] bg-white p-1 text-[13px] whitespace-nowrap shadow-marifer-sm">
             <Link
               href={`/products?${new URLSearchParams({
                 ...(categorySlug && { category: categorySlug }),
@@ -132,8 +132,8 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               }).toString()}`}
               className={`px-3.5 py-1.5 rounded-full font-medium transition-all ${
                 sortBy === 'sale'
-                  ? 'bg-[#d94f78] text-white font-semibold shadow-xs'
-                  : 'text-[#d94f78] hover:text-[#241230]'
+                  ? 'bg-[#c23b64] text-white font-semibold shadow-xs'
+                  : 'text-[#c23b64] hover:text-[#241230]'
               }`}
             >
               Rebajas

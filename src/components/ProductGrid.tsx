@@ -2,9 +2,9 @@
 'use client';
 
 import React from 'react';
-import { motion, Variants } from 'motion/react';
+import { motion, Variants, useReducedMotion } from 'motion/react';
 import Link from 'next/link';
-import { Sparkles, ShoppingBag } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import ProductCard from './ProductCard';
 import type { ProductType } from '@/lib/types';
 
@@ -26,19 +26,17 @@ const containerVariants: Variants = {
 };
 
 const itemVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 20,
-  },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      type: 'spring',
-      stiffness: 100,
-      damping: 20,
-    },
+    transition: { type: 'spring', stiffness: 100, damping: 20 },
   },
+};
+
+const staticVariants: Variants = {
+  hidden: { opacity: 1 },
+  visible: { opacity: 1 },
 };
 
 export function ProductGrid({
@@ -46,24 +44,26 @@ export function ProductGrid({
   columns = 3,
   emptyMessage = 'No encontramos prendas que coincidan con tu búsqueda.',
 }: ProductGridProps) {
+  const reduceMotion = useReducedMotion();
+
   if (products.length === 0) {
     return (
       <div className="py-20 px-4 text-center max-w-md mx-auto">
-        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#FAF9F7] border border-[rgba(26,22,29,0.08)] flex items-center justify-center text-[#9A9196]">
-          <ShoppingBag className="w-8 h-8" />
+        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#f2e6f4] flex items-center justify-center text-[#452453]">
+          <ShoppingBag className="w-8 h-8" aria-hidden="true" />
         </div>
-        <h3 className="font-display text-xl font-bold text-[#1A161D]">
-          Colección en actualización
+        <h3 className="font-display text-xl font-bold text-[#241230]">
+          No hay prendas para mostrar
         </h3>
-        <p className="mt-2 text-sm text-[#6B6368] font-body leading-relaxed">
+        <p className="mt-2 text-[15px] text-[#403945] font-body leading-relaxed">
           {emptyMessage}
         </p>
         <div className="mt-6">
           <Link
             href="/products"
-            className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#C84B6B] text-white text-xs font-semibold hover:bg-[#B03D5C] transition-colors shadow-xs"
+            className="inline-flex items-center justify-center h-11 px-6 rounded-full bg-[#452453] text-white text-[14px] font-semibold hover:bg-[#241230] transition-colors shadow-marifer-btn"
           >
-            Ver catálogo completo
+            Ver todo el catálogo
           </Link>
         </div>
       </div>
@@ -78,13 +78,13 @@ export function ProductGrid({
   return (
     <motion.div
       id="product-grid-container"
-      variants={containerVariants}
+      variants={reduceMotion ? staticVariants : containerVariants}
       initial="hidden"
       animate="visible"
       className={gridColsClass}
     >
       {products.map((product) => (
-        <motion.div key={product.id} variants={itemVariants} className="h-full">
+        <motion.div key={product.id} variants={reduceMotion ? staticVariants : itemVariants} className="h-full">
           <ProductCard product={product} />
         </motion.div>
       ))}
@@ -93,4 +93,3 @@ export function ProductGrid({
 }
 
 export default ProductGrid;
-

@@ -4,7 +4,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { Plus, Minus, Trash2 } from 'lucide-react';
 import { useCart, CartItem } from '@/context/CartContext';
 import { formatPriceUYU } from '@/lib/format';
@@ -15,87 +15,97 @@ interface CartControlProps {
 
 export function CartControl({ item }: CartControlProps) {
   const { updateQuantity, removeItem } = useCart();
+  const reduceMotion = useReducedMotion();
   const { product, quantity } = item;
   const isMaxStock = quantity >= (product.stock || 99);
+  const tap = reduceMotion ? undefined : { scale: 0.9 };
 
   return (
     <div
       id={`cart-item-${product.id}`}
-      className="flex items-center gap-3.5 py-4 border-b border-[rgba(26,22,29,0.06)] last:border-0"
+      className="flex items-start gap-3.5 py-4"
     >
-      {/* Imagen Thumbnail */}
+      {/* Miniatura */}
       <Link
         href={`/product/${product.id}`}
-        className="relative h-20 w-16 flex-shrink-0 overflow-hidden rounded-[16px] bg-[#FAF9F7] border border-[rgba(26,22,29,0.08)]"
+        className="relative h-24 w-[72px] flex-shrink-0 overflow-hidden rounded-[12px] bg-[#f2e6f4] border border-[#e8e3ec]"
       >
         <Image
           src={product.image}
           alt={product.name}
           fill
-          sizes="64px"
+          sizes="72px"
           className="object-cover object-center"
           referrerPolicy="no-referrer"
         />
       </Link>
 
-      {/* Info & Controles */}
-      <div className="flex flex-1 flex-col justify-between min-w-0">
+      {/* Info y controles */}
+      <div className="flex flex-1 flex-col min-w-0 gap-2">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <Link
               href={`/product/${product.id}`}
-              className="text-sm font-semibold text-[#1A161D] hover:text-[#C84B6B] transition-colors truncate block"
+              className="text-[14px] font-semibold text-[#241230] hover:text-[#452453] transition-colors truncate block"
             >
               {product.name}
             </Link>
-            <p className="text-xs text-[#6B6368] font-mono-tabular mt-0.5">
+            <p className="text-[12px] text-[#7d7384] font-mono-tabular mt-0.5">
               {formatPriceUYU(product.price)} c/u
             </p>
           </div>
 
           <motion.button
             id={`remove-item-${product.id}`}
+            type="button"
             onClick={() => removeItem(product.id)}
-            whileTap={{ scale: 0.88 }}
-            whileHover={{ scale: 1.08 }}
-            className="text-[#9A9196] hover:text-[#C84B6B] p-1 transition-colors cursor-pointer"
-            aria-label={`Eliminar ${product.name} del carrito`}
+            whileTap={tap}
+            className="-mt-2 -mr-2 w-11 h-11 flex items-center justify-center rounded-full text-[#7d7384] hover:text-[#c23b64] hover:bg-[#f2e6f4] transition-colors cursor-pointer flex-shrink-0"
+            aria-label={`Quitar ${product.name} de la bolsa`}
           >
             <Trash2 className="h-4 w-4" />
           </motion.button>
         </div>
 
-        <div className="mt-3 flex items-center justify-between">
-          {/* Stepper de Cantidad */}
-          <div className="flex items-center rounded-full border border-[rgba(26,22,29,0.12)] bg-[#FAF9F7] p-0.5">
+        <div className="flex items-center justify-between gap-3">
+          {/* Stepper de cantidad: targets de 44px */}
+          <div
+            className="flex items-center rounded-full border border-[#e8e3ec] bg-white"
+            role="group"
+            aria-label={`Cantidad de ${product.name}`}
+          >
             <motion.button
               id={`decrease-qty-${product.id}`}
+              type="button"
               onClick={() => updateQuantity(product.id, quantity - 1)}
-              whileTap={{ scale: 0.88 }}
-              className="flex h-6 w-6 items-center justify-center rounded-full text-[#1A161D] hover:bg-white hover:shadow-xs transition-all cursor-pointer"
-              aria-label="Disminuir cantidad"
+              whileTap={tap}
+              className="flex h-11 w-11 items-center justify-center rounded-full text-[#241230] hover:bg-[#f2e6f4] transition-colors cursor-pointer"
+              aria-label={quantity === 1 ? 'Quitar prenda' : 'Restar una unidad'}
             >
-              <Minus className="h-3 w-3" />
+              <Minus className="h-4 w-4" />
             </motion.button>
 
-            <span className="w-7 text-center text-xs font-mono-tabular font-bold text-[#1A161D]">
+            <span
+              className="w-8 text-center text-[14px] font-mono-tabular font-bold text-[#241230]"
+              aria-live="polite"
+            >
               {quantity}
             </span>
 
             <motion.button
               id={`increase-qty-${product.id}`}
+              type="button"
               onClick={() => updateQuantity(product.id, quantity + 1)}
               disabled={isMaxStock}
-              whileTap={{ scale: 0.88 }}
-              className="flex h-6 w-6 items-center justify-center rounded-full text-[#1A161D] hover:bg-white hover:shadow-xs transition-all disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-              aria-label="Aumentar cantidad"
+              whileTap={tap}
+              className="flex h-11 w-11 items-center justify-center rounded-full text-[#241230] hover:bg-[#f2e6f4] transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+              aria-label="Sumar una unidad"
             >
-              <Plus className="h-3 w-3" />
+              <Plus className="h-4 w-4" />
             </motion.button>
           </div>
 
-          {/* Subtotal del item */}
-          <span className="font-mono-tabular text-sm font-extrabold text-[#1A161D]">
+          <span className="font-mono-tabular text-[15px] font-extrabold text-[#241230]">
             {formatPriceUYU(product.price * quantity)}
           </span>
         </div>
@@ -105,4 +115,3 @@ export function CartControl({ item }: CartControlProps) {
 }
 
 export default CartControl;
-

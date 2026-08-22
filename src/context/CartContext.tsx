@@ -1,8 +1,24 @@
 // ./src/context/CartContext.tsx
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useSyncExternalStore } from 'react';
 import type { ProductType } from '@/lib/types';
+import { FREE_SHIPPING_THRESHOLD, SHIPPING_COST } from '@/lib/shipping';
+
+const STORAGE_KEY = 'marifer_ecommerce_cart';
+
+function readStoredCart(): CartItem[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? (JSON.parse(saved) as CartItem[]) : [];
+  } catch (e) {
+    console.error('Error loading initial cart:', e);
+    return [];
+  }
+}
+
+const subscribeNoop = () => () => {};
 
 export interface CartItem {
   product: ProductType;
@@ -27,28 +43,21 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const saved = localStorage.getItem('marifer_ecommerce_cart');
-        if (saved) {
-          return JSON.parse(saved);
-        }
-      } catch (e) {
-        console.error('Error loading initial cart:', e);
-      }
-    }
-    return [];
-  });
+  const [storedItems, setItems] = useState<CartItem[]>(readStoredCart);
   const [isOpen, setIsOpen] = useState(false);
+  // Hasta que el cliente hidrata se expone el carrito vacío, igual que en el HTML del servidor,
+  // para evitar mismatch de hidratación con el badge del Navbar.
+  const hydrated = useSyncExternalStore(subscribeNoop, () => true, () => false);
+  const items = hydrated ? storedItems : [];
 
   useEffect(() => {
+    if (!hydrated) return;
     try {
-      localStorage.setItem('marifer_ecommerce_cart', JSON.stringify(items));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(storedItems));
     } catch (e) {
       console.error('Error saving cart:', e);
     }
-  }, [items]);
+  }, [storedItems, hydrated]);
 
   const addItem = (product: ProductType, quantity: number = 1) => {
     setItems((prev) => {
@@ -89,10 +98,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setItems([]);
   };
 
-  const freeShippingThreshold = 3500;
+  const freeShippingThreshold = FREE_SHIPPING_THRESHOLD;
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-  const shipping = subtotal >= freeShippingThreshold || subtotal === 0 ? 0 : 220;
+  const shipping = subtotal >= freeShippingThreshold || subtotal === 0 ? 0 : SHIPPING_COST;
   const total = subtotal + shipping;
 
   return (

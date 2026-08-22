@@ -8,6 +8,7 @@ import { ShoppingBag, Check } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import type { ProductType } from '@/lib/types';
 import { formatPriceUYU } from '@/lib/format';
+import { FREE_SHIPPING_THRESHOLD } from '@/lib/shipping';
 
 interface ProductCardProps {
   product: ProductType;
@@ -50,7 +51,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   // Determinar badge
   const isNew = product.id === 'prod-3' || (!product.compareAtPrice && product.featured);
-  const isFreeShipping = product.price >= 2500;
+  const isFreeShipping = product.price >= FREE_SHIPPING_THRESHOLD;
 
   return (
     <div
@@ -62,6 +63,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <Link
           href={`/product/${product.id}`}
           className="relative block aspect-[3/4] w-full overflow-hidden rounded-[10px] bg-[#f2e6f4]"
+          aria-label={`Ver ${product.name}`}
         >
           <Image
             src={product.image}
@@ -70,22 +72,21 @@ export function ProductCard({ product }: ProductCardProps) {
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             className="object-cover object-center group-hover:scale-105 transition-transform duration-300 ease-out"
             referrerPolicy="no-referrer"
-            priority={product.featured}
           />
 
-          {/* Badge píldora arriba-izquierda (frambuesa "-32%", violeta "NUEVO", dorado "ENVÍO GRATIS") */}
+          {/* Badge píldora arriba-izquierda: rebaja / nuevo / envío gratis */}
           <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5 z-10">
             {discountPercent ? (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide bg-[#d94f78] text-white">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-bold tracking-wide bg-[#c23b64] text-white">
                 -{discountPercent}%
               </span>
             ) : isNew ? (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide bg-[#452453] text-white">
-                NUEVO
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-bold tracking-wide bg-[#452453] text-white">
+                Nuevo
               </span>
             ) : isFreeShipping ? (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide bg-[#d4a15a] text-white">
-                ENVÍO GRATIS
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-bold tracking-wide bg-[#d4a15a] text-[#241230]">
+                Envío gratis
               </span>
             ) : null}
           </div>
@@ -93,25 +94,23 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Info de producto */}
         <div className="pt-3 pb-1 space-y-1">
-          {/* Categoría en mayúsculas 12px gris (#7d7384) */}
           <span className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#7d7384] block">
-            {product.category?.name || 'MARIFER'}
+            {product.category?.name || 'Marifer'}
           </span>
 
-          {/* Nombre 17px Outfit (#241230) */}
           <Link href={`/product/${product.id}`} className="block group-hover:text-[#452453] transition-colors">
             <h3 className="font-display text-[17px] font-bold text-[#241230] leading-snug line-clamp-1">
               {product.name}
             </h3>
           </Link>
 
-          {/* Precio 20px 800 (#241230) + precio anterior tachado gris (#7d7384) */}
           <div className="flex items-baseline gap-2 pt-0.5">
-            <span className="font-display font-extrabold text-[20px] text-[#241230] font-mono-tabular leading-none">
+            <span className="font-mono-tabular font-extrabold text-[20px] text-[#241230] leading-none">
               {formatPriceUYU(product.price)}
             </span>
             {product.compareAtPrice && (
               <span className="font-mono-tabular text-[13px] text-[#7d7384] line-through">
+                <span className="sr-only">Antes </span>
                 {formatPriceUYU(product.compareAtPrice)}
               </span>
             )}
@@ -119,46 +118,42 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
       </div>
 
-      {/* Fila inferior: puntos de color (12px) + rango de talles "S – L" + botón de compra rápida */}
-      <div className="pt-2 mt-2 flex items-center justify-between border-t border-[#e8e3ec]">
+      {/* Fila inferior: swatches + talles + compra rápida */}
+      <div className="pt-2 mt-2 flex items-center justify-between gap-2 border-t border-[#e8e3ec]">
         <div className="flex items-center gap-3">
-          {/* Fila de 2–3 puntos de color (12px) */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5" aria-hidden="true">
             {colors.map((c, i) => (
               <span
                 key={i}
-                className="w-3 h-3 rounded-full border border-black/10 shadow-xs"
+                className="w-3 h-3 rounded-full border border-black/10"
                 style={{ backgroundColor: c }}
               />
             ))}
           </div>
-
-          {/* Rango de talles "S – L" */}
-          <span className="text-[12px] font-medium text-[#7d7384]">
-            S – L
-          </span>
+          <span className="text-[12px] font-medium text-[#7d7384]">S – L</span>
         </div>
 
-        {/* Botón táctil min 44px */}
         <button
           id={`add-to-cart-btn-${product.id}`}
+          type="button"
           onClick={handleAddToCart}
           disabled={product.stock === 0}
-          className={`h-9 px-3 rounded-full text-[12px] font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+          className={`h-11 px-4 rounded-full text-[13px] font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
             added
               ? 'bg-[#146043] text-white'
               : 'bg-[#452453] text-white hover:bg-[#241230] shadow-marifer-btn'
-          } disabled:bg-[#f2e6f4] disabled:text-[#7d7384] disabled:cursor-not-allowed`}
-          aria-label={`Agregar ${product.name} al carrito`}
+          } disabled:bg-[#f2e6f4] disabled:text-[#7d7384] disabled:shadow-none disabled:cursor-not-allowed`}
+          aria-label={`Agregar ${product.name} a la bolsa`}
+          aria-live="polite"
         >
           {added ? (
             <>
-              <Check className="h-3.5 w-3.5 stroke-[2.5]" />
+              <Check className="h-4 w-4 stroke-[2.5]" aria-hidden="true" />
               <span>Listo</span>
             </>
           ) : (
             <>
-              <ShoppingBag className="h-3.5 w-3.5 stroke-[2]" />
+              <ShoppingBag className="h-4 w-4 stroke-[2]" aria-hidden="true" />
               <span>{isAlreadyInCart ? '+1' : 'Sumar'}</span>
             </>
           )}
@@ -169,5 +164,3 @@ export function ProductCard({ product }: ProductCardProps) {
 }
 
 export default ProductCard;
-
-

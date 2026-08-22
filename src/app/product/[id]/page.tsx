@@ -2,13 +2,14 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Star, ShieldCheck, Truck, RotateCcw, ChevronRight, Check, CreditCard, Sparkles, Heart } from 'lucide-react';
+import { Star, Truck, RotateCcw, ChevronRight, Check, CreditCard } from 'lucide-react';
 import prisma from '@/lib/prisma';
 import ProductDetailGallery from '@/components/ProductDetailGallery';
 import AddToCartButton from '@/components/AddToCartButton';
 import ProductGrid from '@/components/ProductGrid';
 import type { ProductType } from '@/lib/types';
 import { formatPriceUYU, calculateInstallmentsUYU } from '@/lib/format';
+import { FREE_SHIPPING_THRESHOLD } from '@/lib/shipping';
 
 export const revalidate = 60;
 
@@ -53,36 +54,38 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
       : null;
 
   const installmentInfo = calculateInstallmentsUYU(product.price, 6);
+  const hasFreeShipping = product.price >= FREE_SHIPPING_THRESHOLD;
 
   return (
-    <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-10 space-y-16">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-10 space-y-16">
       {/* Breadcrumbs */}
-      <nav className="flex items-center gap-2 text-xs text-[#6B6368] font-body">
-        <Link href="/" className="hover:text-[#1A161D] transition-colors">
+      <nav aria-label="Ruta de navegación" className="flex items-center gap-2 text-[13px] text-[#7d7384] font-body">
+        <Link href="/" className="hover:text-[#241230] transition-colors">
           Inicio
         </Link>
-        <ChevronRight className="h-3.5 w-3.5" />
-        <Link href="/products" className="hover:text-[#1A161D] transition-colors">
+        <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+        <Link href="/products" className="hover:text-[#241230] transition-colors">
           Catálogo
         </Link>
         {product.category && (
           <>
-            <ChevronRight className="h-3.5 w-3.5" />
+            <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
             <Link
               href={`/products?category=${product.category.slug}`}
-              className="hover:text-[#1A161D] transition-colors"
+              className="hover:text-[#241230] transition-colors"
             >
               {product.category.name}
             </Link>
           </>
         )}
-        <ChevronRight className="h-3.5 w-3.5" />
-        <span className="text-[#1A161D] font-semibold truncate max-w-xs">{product.name}</span>
+        <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+        <span className="text-[#241230] font-semibold truncate max-w-xs" aria-current="page">
+          {product.name}
+        </span>
       </nav>
 
-      {/* Contenido Principal: Galería + Ficha Técnica y Compra */}
+      {/* Galería + ficha */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-        {/* Columna Izquierda: Galería Interactiva */}
         <div className="lg:col-span-7">
           <ProductDetailGallery
             mainImage={product.image}
@@ -91,52 +94,57 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           />
         </div>
 
-        {/* Columna Derecha: Información y Botón de Compra */}
         <div className="lg:col-span-5 space-y-6">
           <div>
             {product.category && (
-              <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#C84B6B]">
-                {product.category.name} &bull; MARIFER MONTEVIDEO
+              <span className="text-[12px] font-bold uppercase tracking-[0.18em] text-[#452453]">
+                {product.category.name} · Marifer Montevideo
               </span>
             )}
-            <h1 className="font-display font-black text-3xl sm:text-4xl text-[#1A161D] tracking-tight mt-1 leading-tight">
+            <h1 className="font-display font-black text-3xl sm:text-4xl text-[#241230] tracking-tight mt-1 leading-tight">
               {product.name}
             </h1>
 
             {/* Rating */}
             <div className="flex items-center gap-3 mt-3">
-              <div className="flex items-center gap-1 text-[#C4963A]">
+              <div
+                className="flex items-center gap-1 text-[#d4a15a]"
+                role="img"
+                aria-label={`${product.rating.toFixed(1)} de 5 estrellas`}
+              >
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
+                    aria-hidden="true"
                     className={`h-4 w-4 ${
                       i < Math.floor(product.rating)
-                        ? 'fill-[#C4963A] text-[#C4963A]'
-                        : 'text-neutral-200'
+                        ? 'fill-[#d4a15a] text-[#d4a15a]'
+                        : 'text-[#e3cde8]'
                     }`}
                   />
                 ))}
               </div>
-              <span className="text-xs font-mono-tabular font-bold text-[#1A161D]">
+              <span className="text-[13px] font-mono-tabular font-bold text-[#241230]">
                 {product.rating.toFixed(1)}
               </span>
-              <span className="text-xs text-[#9A9196]">
+              <span className="text-[13px] text-[#7d7384]">
                 ({product.numReviews} reseñas de clientas)
               </span>
             </div>
           </div>
 
-          {/* Bloque de Precios y Cuotas */}
-          <div className="p-5 rounded-[20px] bg-white border border-[rgba(26,22,29,0.08)] shadow-diffused space-y-3">
-            <div className="flex items-baseline justify-between">
+          {/* Precio y cuotas */}
+          <div className="p-5 rounded-[20px] bg-white border border-[#e8e3ec] shadow-marifer-sm space-y-3">
+            <div className="flex items-baseline justify-between gap-3">
               <div>
-                <span className="text-[11px] text-[#6B6368] uppercase font-bold tracking-wider">Precio Contado</span>
+                <span className="text-[12px] text-[#7d7384] uppercase font-bold tracking-wider">Precio contado</span>
                 <div className="flex items-baseline gap-3 mt-0.5">
-                  <span className="font-mono-tabular text-3xl sm:text-4xl font-extrabold text-[#1A161D]">
+                  <span className="font-mono-tabular text-3xl sm:text-4xl font-extrabold text-[#241230]">
                     {formatPriceUYU(product.price)}
                   </span>
                   {product.compareAtPrice && (
-                    <span className="font-mono-tabular text-base text-[#9A9196] line-through">
+                    <span className="font-mono-tabular text-base text-[#7d7384] line-through">
+                      <span className="sr-only">Antes </span>
                       {formatPriceUYU(product.compareAtPrice)}
                     </span>
                   )}
@@ -144,88 +152,86 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               </div>
 
               {discountPercent && (
-                <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#C84B6B] text-white shadow-xs">
+                <span className="px-3 py-1 rounded-full text-[12px] font-bold bg-[#c23b64] text-white">
                   {discountPercent}% OFF
                 </span>
               )}
             </div>
 
-            {/* Cuotas sin recargo */}
-            <div className="pt-3 border-t border-[rgba(26,22,29,0.06)] flex items-center justify-between text-xs">
-              <span className="flex items-center gap-1.5 text-[#1A161D] font-medium">
-                <CreditCard className="w-4 h-4 text-[#C84B6B]" />
-                Hasta 6 cuotas de
+            <div className="pt-3 border-t border-[#e8e3ec] flex items-center justify-between text-[13px]">
+              <span className="flex items-center gap-1.5 text-[#241230] font-medium">
+                <CreditCard className="w-4 h-4 text-[#452453]" aria-hidden="true" />
+                6 cuotas sin recargo de
               </span>
-              <span className="font-mono-tabular font-bold text-[#C84B6B]">
-                {installmentInfo.installmentText} sin recargo
+              <span className="font-mono-tabular font-bold text-[#452453]">
+                {installmentInfo.installmentText}
               </span>
             </div>
           </div>
 
-          {/* Descripción de la Prenda */}
+          {/* Descripción */}
           <div className="space-y-2">
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#1A161D]">
-              Detalles & Caída de la Prenda
-            </h3>
-            <p className="text-sm text-[#6B6368] font-body leading-relaxed">
+            <h2 className="text-[12px] font-bold uppercase tracking-[0.16em] text-[#241230]">
+              Detalles y caída de la prenda
+            </h2>
+            <p className="text-[15px] text-[#403945] font-body leading-relaxed">
               {product.description}
             </p>
           </div>
 
-          {/* Estado de Stock */}
-          <div className="flex items-center gap-2 text-xs font-semibold text-[#3D8B5A]">
-            <Check className="h-4 w-4" />
+          {/* Stock */}
+          <div className="flex items-center gap-2 text-[13px] font-semibold text-[#146043]">
+            <Check className="h-4 w-4" aria-hidden="true" />
             <span>
               {product.stock > 0
-                ? `Disponible en boutique (${product.stock} unidades para despacho inmediato)`
-                : 'Prenda agotada temporalmente'}
+                ? `Disponible: ${product.stock} unidades para despacho inmediato`
+                : 'Prenda agotada por el momento'}
             </span>
           </div>
 
-          {/* Componente Cliente de Compra (Interactividad con framer motion) */}
-          <div className="pt-2 border-t border-[rgba(26,22,29,0.08)]">
+          <div className="pt-2 border-t border-[#e8e3ec]">
             <AddToCartButton product={product as unknown as ProductType} />
           </div>
 
-          {/* Garantías y Beneficios Boutique */}
-          <div className="space-y-3 pt-4 border-t border-[rgba(26,22,29,0.08)] text-xs text-[#6B6368] font-body">
-            <div className="flex items-center gap-3">
-              <Truck className="h-4 w-4 text-[#3D8B5A] flex-shrink-0" />
+          {/* Beneficios */}
+          <ul className="space-y-3 pt-4 border-t border-[#e8e3ec] text-[13px] text-[#403945] font-body">
+            <li className="flex items-center gap-3">
+              <Truck className="h-4 w-4 text-[#146043] flex-shrink-0" aria-hidden="true" />
               <span>
-                {product.price >= 3500 ? (
-                  <strong className="text-[#1A161D]">¡Envío Gratis a todo el país incluido!</strong>
+                {hasFreeShipping ? (
+                  <strong className="text-[#241230]">Envío gratis a todo el país incluido</strong>
                 ) : (
-                  'Envíos en Montevideo e Interior en 24 a 72 h hábiles.'
+                  'Envíos a Montevideo e Interior en 24 a 72 h hábiles.'
                 )}
               </span>
-            </div>
-            <div className="flex items-center gap-3">
-              <CreditCard className="h-4 w-4 text-[#C84B6B] flex-shrink-0" />
+            </li>
+            <li className="flex items-center gap-3">
+              <CreditCard className="h-4 w-4 text-[#452453] flex-shrink-0" aria-hidden="true" />
               <span>Aceptamos OCA, Visa, Master, Abitab y Redpagos.</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <RotateCcw className="h-4 w-4 text-[#C4963A] flex-shrink-0" />
+            </li>
+            <li className="flex items-center gap-3">
+              <RotateCcw className="h-4 w-4 text-[#d4a15a] flex-shrink-0" aria-hidden="true" />
               <span>Cambios sin costo durante los primeros 30 días.</span>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
       </div>
 
-      {/* Productos Relacionados */}
+      {/* Relacionados */}
       {relatedProducts.length > 0 && (
-        <div className="pt-14 border-t border-[rgba(26,22,29,0.08)] space-y-8">
-          <div className="flex items-end justify-between">
+        <div className="pt-14 border-t border-[#e8e3ec] space-y-8">
+          <div className="flex items-end justify-between gap-4">
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#C84B6B]">
-                COMBINÁ TU LOOK
+              <span className="text-[12px] font-bold uppercase tracking-[0.16em] text-[#452453]">
+                Combiná tu look
               </span>
-              <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#1A161D] mt-1">
-                Prendas Relacionadas
+              <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#241230] mt-1">
+                Prendas relacionadas
               </h2>
             </div>
             <Link
               href={`/products?category=${product.category?.slug}`}
-              className="text-xs sm:text-sm font-semibold text-[#1A161D] hover:text-[#C84B6B] transition-colors underline underline-offset-4"
+              className="text-[13px] sm:text-[14px] font-semibold text-[#452453] hover:text-[#241230] transition-colors underline underline-offset-4 whitespace-nowrap"
             >
               Ver más en {product.category?.name}
             </Link>
@@ -237,4 +243,3 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     </div>
   );
 }
-
