@@ -78,7 +78,7 @@ export function CartDrawer() {
                       Tu bolsa
                     </h2>
                     <p className="text-[13px] text-[#7d7384] font-body">
-                      {totalItems} {totalItems === 1 ? 'prenda' : 'prendas'}
+                      <span className="font-mono-tabular font-semibold">{totalItems}</span> {totalItems === 1 ? 'prenda' : 'prendas'}
                     </p>
                   </div>
                 </div>

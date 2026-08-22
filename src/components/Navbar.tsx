@@ -72,8 +72,8 @@ export function Navbar() {
   return (
     <div className="w-full" data-surface="dark">
       {/* Barra de anuncio */}
-      <div className="bg-[#fbf1de] text-[#7a5222] text-[12px] font-bold py-2 px-4 text-center tracking-wide border-b border-[#ebd7be]">
-        <p className="max-w-[1440px] mx-auto">
+      <div className="bg-[#fbf1de] text-[#7a5222] text-[12px] font-bold py-2 px-4 text-center tracking-wide border-b border-[#e8e3ec]">
+        <p className="max-w-[1440px] mx-auto font-mono-tabular">
           Envío gratis en compras desde {formatPriceUYU(FREE_SHIPPING_THRESHOLD)} · 6 pagos sin recargo
         </p>
       </div>

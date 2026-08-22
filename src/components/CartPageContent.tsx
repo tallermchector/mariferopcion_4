@@ -153,7 +153,7 @@ export function CartPageContent() {
         <div className="rounded-[24px] bg-white border border-[#e8e3ec] p-6 sm:p-8 shadow-marifer-sm">
           <div className="pb-4 flex justify-between items-center border-b border-[#e8e3ec]">
             <h2 className="font-display text-base font-bold text-[#241230]">
-              Prendas seleccionadas ({totalItems})
+              Prendas seleccionadas (<span className="font-mono-tabular font-semibold">{totalItems}</span>)
             </h2>
             <button
               type="button"
@@ -197,7 +197,7 @@ export function CartPageContent() {
                 }}
                 aria-invalid={promoError ? true : undefined}
                 aria-describedby={promoError ? 'promo-error' : appliedPromo ? 'promo-ok' : undefined}
-                className="flex-1 min-w-0 h-11 rounded-full border border-[#d3ccd8] px-4 text-[14px] uppercase placeholder:normal-case placeholder:text-[#7d7384] focus:outline-none focus:border-[#452453] focus:ring-2 focus:ring-[#452453]/25 aria-[invalid=true]:border-[#c23b64]"
+                className="flex-1 min-w-0 h-11 rounded-full border border-[#d3ccd8] px-4 text-[14px] uppercase placeholder:normal-case placeholder:text-[#7d7384] focus:outline-none focus:border-[#452453] focus:ring-2 focus:ring-[#caa8d3] focus:ring-offset-2 aria-[invalid=true]:border-[#c23b64] transition-shadow"
               />
               <button
                 type="submit"
@@ -252,7 +252,7 @@ export function CartPageContent() {
                 <span className="font-mono-tabular text-2xl">{formatPriceUYU(finalTotal)}</span>
               </div>
               <p className="text-[12px] text-[#452453] font-semibold text-right">
-                O 6 cuotas sin recargo de {installmentInfo.installmentText}
+                O 6 cuotas sin recargo de <span className="font-mono-tabular font-bold">{installmentInfo.installmentText}</span>
               </p>
             </div>
           </div>

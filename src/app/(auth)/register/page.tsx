@@ -20,7 +20,7 @@ function validate(name: string, email: string, password: string): FieldErrors {
 }
 
 const inputClass =
-  'w-full h-12 rounded-full border border-[#d3ccd8] bg-white pl-11 pr-4 text-[15px] text-[#241230] placeholder:text-[#7d7384] focus:outline-none focus:border-[#452453] focus:ring-2 focus:ring-[#452453]/25 transition-shadow aria-[invalid=true]:border-[#c23b64]';
+  'w-full h-12 rounded-full border border-[#d3ccd8] bg-white pl-11 pr-4 text-[15px] text-[#241230] placeholder:text-[#7d7384] focus:outline-none focus:border-[#452453] focus:ring-2 focus:ring-[#caa8d3] focus:ring-offset-2 transition-shadow aria-[invalid=true]:border-[#c23b64]';
 
 export default function RegisterPage() {
   const router = useRouter();

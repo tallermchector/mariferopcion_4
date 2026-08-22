@@ -43,7 +43,7 @@ export function Footer() {
                 <Link href="/products?category=abrigos" className="hover:text-white transition-colors">Abrigos</Link>
               </li>
               <li>
-                <Link href="/products?sort=sale" className="text-[#d94f78] font-semibold hover:underline">
+                <Link href="/products?sort=sale" className="text-[#caa8d3] font-semibold hover:underline hover:text-white transition-colors">
                   Rebajas
                 </Link>
               </li>

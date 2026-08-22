@@ -128,7 +128,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                 {product.rating.toFixed(1)}
               </span>
               <span className="text-[13px] text-[#7d7384]">
-                ({product.numReviews} reseñas de clientas)
+                (<span className="font-mono-tabular font-semibold">{product.numReviews}</span> reseñas de clientas)
               </span>
             </div>
           </div>
@@ -152,7 +152,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               </div>
 
               {discountPercent && (
-                <span className="px-3 py-1 rounded-full text-[12px] font-bold bg-[#c23b64] text-white">
+                <span className="px-3 py-1 rounded-full text-[12px] font-bold bg-[#c23b64] text-white font-mono-tabular">
                   {discountPercent}% OFF
                 </span>
               )}
@@ -186,9 +186,11 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               className={`dot-pulse inline-block h-2 w-2 rounded-full ${product.stock > 0 ? "bg-[#1f8a5f] text-[#1f8a5f]" : "bg-[#7d7384] text-[#7d7384]"}`}
             />
             <span>
-              {product.stock > 0
-                ? `Disponible: ${product.stock} unidades para despacho inmediato`
-                : 'Prenda agotada por el momento'}
+              {product.stock > 0 ? (
+                <>Disponible: <span className="font-mono-tabular font-bold">{product.stock}</span> unidades para despacho inmediato</>
+              ) : (
+                'Prenda agotada por el momento'
+              )}
             </span>
           </div>
 

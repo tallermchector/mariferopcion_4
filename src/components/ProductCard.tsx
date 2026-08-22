@@ -77,7 +77,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {/* Badge píldora arriba-izquierda: rebaja / nuevo / envío gratis */}
           <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5 z-10">
             {discountPercent ? (
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-bold tracking-wide bg-[#c23b64] text-white">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-bold tracking-wide bg-[#c23b64] text-white font-mono-tabular">
                 -{discountPercent}%
               </span>
             ) : isNew ? (

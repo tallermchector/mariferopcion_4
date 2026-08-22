@@ -78,7 +78,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             {activeCategory ? activeCategory.name : (sortBy === 'sale' ? 'Rebajas de temporada' : 'Todas las prendas')}
           </h1>
           <p className="text-[13px] sm:text-sm text-[#7d7384] font-body mt-1" aria-live="polite">
-            {products.length} {products.length === 1 ? 'modelo disponible' : 'modelos disponibles para envío a todo el país'}
+            <span className="font-mono-tabular font-semibold">{products.length}</span> {products.length === 1 ? 'modelo disponible' : 'modelos disponibles para envío a todo el país'}
           </p>
         </div>
 
@@ -93,7 +93,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               }).toString()}`}
               className={`h-9 px-3.5 inline-flex items-center rounded-full font-medium transition-all ${
                 sortBy === 'newest'
-                  ? 'bg-[#452453] text-white font-semibold shadow-xs'
+                  ? 'bg-[#452453] text-white font-semibold shadow-marifer-sm'
                   : 'text-[#7d7384] hover:text-[#241230]'
               }`}
             >
@@ -106,7 +106,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               }).toString()}`}
               className={`h-9 px-3.5 inline-flex items-center rounded-full font-medium transition-all ${
                 sortBy === 'price-asc'
-                  ? 'bg-[#452453] text-white font-semibold shadow-xs'
+                  ? 'bg-[#452453] text-white font-semibold shadow-marifer-sm'
                   : 'text-[#7d7384] hover:text-[#241230]'
               }`}
             >Menor precio</Link>
@@ -117,7 +117,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               }).toString()}`}
               className={`h-9 px-3.5 inline-flex items-center rounded-full font-medium transition-all ${
                 sortBy === 'price-desc'
-                  ? 'bg-[#452453] text-white font-semibold shadow-xs'
+                  ? 'bg-[#452453] text-white font-semibold shadow-marifer-sm'
                   : 'text-[#7d7384] hover:text-[#241230]'
               }`}
             >Mayor precio</Link>
@@ -128,7 +128,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               }).toString()}`}
               className={`h-9 px-3.5 inline-flex items-center rounded-full font-medium transition-all ${
                 sortBy === 'sale'
-                  ? 'bg-[#c23b64] text-white font-semibold shadow-xs'
+                  ? 'bg-[#c23b64] text-white font-semibold shadow-marifer-sm'
                   : 'text-[#c23b64] hover:text-[#241230]'
               }`}
             >
@@ -144,7 +144,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
           href={`/products?${sortBy ? `sort=${sortBy}` : ''}`}
           className={`h-11 px-5 inline-flex items-center rounded-full text-[13px] font-semibold transition-all whitespace-nowrap ${
             !categorySlug || categorySlug === 'all'
-              ? 'bg-[#452453] text-white shadow-xs'
+              ? 'bg-[#452453] text-white shadow-marifer-sm'
               : 'bg-white border border-[#e8e3ec] text-[#7d7384] hover:text-[#241230] hover:bg-[#f2e6f4]'
           }`}
         >
@@ -158,7 +158,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               href={`/products?category=${cat.slug}${sortBy ? `&sort=${sortBy}` : ''}`}
               className={`h-11 px-5 inline-flex items-center rounded-full text-[13px] font-semibold transition-all whitespace-nowrap ${
                 isSelected
-                  ? 'bg-[#452453] text-white shadow-xs'
+                  ? 'bg-[#452453] text-white shadow-marifer-sm'
                   : 'bg-white border border-[#e8e3ec] text-[#7d7384] hover:text-[#241230] hover:bg-[#f2e6f4]'
               }`}
             >
