@@ -1,0 +1,86 @@
+/* ./src/app/globals.css */
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-page: #fffcff;
+    --bg-card: #ffffff;
+    --brand-primary: #452453;
+    --brand-deep: #241230;
+    --brand-soft-lila: #f2e6f4;
+    --brand-border-lila: #e3cde8;
+    --brand-lavanda: #caa8d3;
+    --accent-sale: #d94f78;
+    --accent-highlight: #d4a15a;
+    --bar-crema: #fbf1de;
+    --bar-tabaco: #96662a;
+    --stock-text: #146043;
+    --stock-dot: #1f8a5f;
+    --text-primary: #241230;
+    --text-body: #403945;
+    --text-muted: #7d7384;
+    --border-hairline: #e8e3ec;
+    --border-default: #d3ccd8;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: var(--font-manrope), sans-serif;
+  }
+
+  body {
+    background-color: var(--bg-page);
+    color: var(--text-body);
+    font-family: var(--font-manrope), sans-serif;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-outfit), sans-serif;
+    letter-spacing: -0.025em;
+    color: var(--text-primary);
+  }
+}
+
+.font-display {
+  font-family: var(--font-outfit), sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-manrope), sans-serif;
+}
+
+.font-logo {
+  font-family: var(--font-brand), cursive;
+}
+
+.font-mono-tabular {
+  font-family: var(--font-mono), monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Violet-tinted shadow system */
+.shadow-marifer-sm {
+  box-shadow: 0 1px 2px rgba(36, 18, 48, 0.06);
+}
+
+.shadow-marifer-hover {
+  box-shadow: 0 14px 36px rgba(36, 18, 48, 0.14);
+}
+
+.shadow-marifer-btn {
+  box-shadow: 0 6px 18px rgba(69, 36, 83, 0.24);
+}
+
+/* Micro-interaction hover rules */
+.hover-lift {
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(36, 18, 48, 0.14);
+}
+

@@ -1,0 +1,6 @@
+{
+  "name": "Marifer — Tu Ropa Diaria",
+  "description": "Boutique uruguaya de moda femenina. Prendas esenciales y contemporáneas para tu día a día.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
