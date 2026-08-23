@@ -17,7 +17,7 @@
 
 ## Critical Conventions
 
-**Package manager**: `pnpm` (or `bun` if present in CI). Use `pnpm install`, `pnpm build`, `pnpm exec prisma ...`.
+**Package manager**: Bun only (`bun.lock` committed). Do not use pnpm/npm.
 
 **Build order**: `lint` passes during build (`eslint.ignoreDuringBuilds: true`), but `typecheck` fails build (`typescript.ignoreBuildErrors: false`). Run lint + typecheck separately before committing.
 
@@ -41,7 +41,8 @@
 
 ## Design System
 
-- **Source of truth**: `design-system/marifer/MASTER.md`
+- **Implementation source of truth**: `design-system/marifer/MASTER-archived-2026-08-22.md` (tokens, components, a11y checklist, motion rules)
+- **Stitch prompts**: `DESIGN.md` (root) — semantic prompts for Google Stitch generation
 - **Palette**: CSS vars in `src/app/globals.css` (violeta `#452453`, lila tones, accent sale `#c23b64` for AA text)
 - **Fonts**: Outfit (display), Manrope (body), Lobster Two (logo), JetBrains Mono (prices)
 - **Components**: Inline hex via Tailwind (`bg-[#452453]`), no `neutral-*`/`indigo-*` classes
