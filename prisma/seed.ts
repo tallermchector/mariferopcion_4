@@ -1,9 +1,8 @@
 // prisma/seed.ts
-import { PrismaClient } from '@prisma/client';
+import 'dotenv/config';
+import prisma from '../src/lib/prisma';
 import * as fs from 'fs';
 import * as path from 'path';
-
-const prisma = new PrismaClient();
 
 function slugify(text: string): string {
   return text

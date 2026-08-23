@@ -1,31 +1,18 @@
-// ./src/lib/prisma.ts
 import { PrismaClient } from '@prisma/client';
-import path from 'path';
-
-const getDatabaseUrl = () => {
-  if (process.env.DATABASE_URL && process.env.DATABASE_URL.startsWith('file:')) {
-    return process.env.DATABASE_URL;
-  }
-  const dbPath = path.join(process.cwd(), 'prisma', 'dev.db');
-  return `file:${dbPath}`;
-};
-
-if (!process.env.DATABASE_URL) {
-  process.env.DATABASE_URL = getDatabaseUrl();
-}
-
-/**
- * Cliente Singleton de Prisma para evitar el agotamiento de conexiones
- * durante el Fast Refresh en entornos de desarrollo de Next.js.
- */
+import { PrismaPg } from '@prisma/adapter-pg';
 
 const prismaClientSingleton = () => {
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    throw new Error('DATABASE_URL is not defined in environment variables');
+  }
+
+  const adapter = new PrismaPg({
+    connectionString,
+  });
+
   return new PrismaClient({
-    datasources: {
-      db: {
-        url: getDatabaseUrl(),
-      },
-    },
+    adapter,
     log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
   });
 };
