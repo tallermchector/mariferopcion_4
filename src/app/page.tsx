@@ -215,8 +215,8 @@ export default async function HomePage() {
 
             {/* Columna Visual (col-span-5) con marifer_texto_diagonal a la derecha y badge flotante */}
             <div className="lg:col-span-5 relative space-y-3">
-              {/* Elemento gráfico Marifer Texto Diagonal destacado a la derecha */}
-              <div className="absolute -top-12 -right-6 w-56 sm:w-72 h-32 sm:h-40 opacity-40 pointer-events-none select-none z-20">
+              {/* Elemento gráfico Marifer Texto Diagonal destacado a la derecha con animación de flotación */}
+              <div className="absolute -top-12 -right-6 w-56 sm:w-72 h-32 sm:h-40 opacity-40 pointer-events-none select-none z-20 animate-float">
                 <Image
                   src="/marifer_texto_diagonal.png"
                   alt="MARIFER"
@@ -226,7 +226,7 @@ export default async function HomePage() {
                 />
               </div>
 
-              <div className="relative aspect-[4/5] w-full rounded-[28px] overflow-hidden bg-[#241230] border border-[#caa8d3]/20 shadow-marifer-hover group">
+              <div className="relative aspect-[4/5] w-full rounded-[28px] overflow-hidden bg-[#241230] border border-[#caa8d3]/20 shadow-marifer-hover group radial-glow-hover">
                 <Image
                   src="https://picsum.photos/seed/marifer-otono26/800/1000"
                   alt="Campaña Marifer otoño 2026"
@@ -238,7 +238,7 @@ export default async function HomePage() {
                 />
 
                 {/* Badge flotante de origen */}
-                <div className="absolute bottom-4 left-4 right-4 sm:right-auto bg-[#241230]/85 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 flex items-center gap-3 text-white shadow-lg">
+                <div className="absolute bottom-4 left-4 right-4 sm:right-auto bg-[#241230]/85 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 flex items-center gap-3 text-white shadow-lg transition-transform duration-300 group-hover:translate-y-[-2px]">
                   <div className="w-10 h-10 rounded-full bg-[#caa8d3]/20 flex items-center justify-center text-[#caa8d3] shrink-0">
                     <Heart className="w-5 h-5 fill-[#caa8d3]" aria-hidden="true" />
                   </div>
@@ -458,9 +458,9 @@ export default async function HomePage() {
 
       {/* BANNER DE IDENTIDAD DE MARCA CON LOGO Y TEXTO DIAGONAL */}
       <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 pt-[clamp(3.5rem,6vw,5rem)]">
-        <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-r from-[#452453] via-[#351842] to-[#241230] text-white p-8 sm:p-12 lg:p-16 border border-[#caa8d3]/20 shadow-marifer-hover">
-          {/* Marca de agua diagonal en fondo */}
-          <div className="absolute -right-12 -bottom-16 w-96 h-64 opacity-20 pointer-events-none select-none">
+        <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-r from-[#452453] via-[#351842] to-[#241230] text-white p-8 sm:p-12 lg:p-16 border border-[#caa8d3]/20 shadow-marifer-hover radial-glow-hover group">
+          {/* Marca de agua diagonal en fondo con micro-movimiento */}
+          <div className="absolute -right-12 -bottom-16 w-96 h-64 opacity-20 pointer-events-none select-none transition-transform duration-700 ease-out group-hover:scale-105 group-hover:rotate-1">
             <Image
               src="/marifer_texto_diagonal.png"
               alt=""

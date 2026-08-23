@@ -136,20 +136,38 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Único micro-loop perpetuo por vista: punto de estado (stock) */
-.dot-pulse {
-  position: relative;
+/* Animación flotante suave para elementos gráficos editoriales */
+.animate-float {
+  animation: float-gentle 6s ease-in-out infinite;
 }
-.dot-pulse::after {
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+/* Efecto radial ambient glow */
+.radial-glow-hover {
+  position: relative;
+  overflow: hidden;
+}
+.radial-glow-hover::before {
   content: '';
   position: absolute;
-  inset: -4px;
+  top: 50%;
+  left: 50%;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(202, 168, 211, 0.28) 0%, rgba(202, 168, 211, 0) 70%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events-none;
   border-radius: 9999px;
-  background: currentColor;
-  opacity: 0.35;
-  animation: dot-pulse 1.8s ease-in-out infinite;
+  z-index: 1;
 }
-@keyframes dot-pulse {
-  0%, 100% { transform: scale(0.6); opacity: 0.35; }
-  50% { transform: scale(1.15); opacity: 0; }
+.radial-glow-hover:hover::before {
+  transform: translate(-50%, -50%) scale(1.4);
 }
