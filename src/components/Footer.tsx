@@ -111,6 +111,9 @@ export function Footer() {
           <p>© 2026 MARIFER · Montevideo, Uruguay</p>
           <div className="flex items-center gap-6">
             <span>6 pagos sin recargo con OCA, Visa, Master y Creditel</span>
+            <Link href="/admin" className="hover:text-white underline text-[12px] opacity-70 hover:opacity-100 transition-opacity">
+              Acceso Admin
+            </Link>
           </div>
         </div>
       </div>

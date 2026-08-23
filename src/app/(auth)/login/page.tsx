@@ -38,17 +38,36 @@ export default function LoginPage() {
     return next;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched({ email: true, password: true });
     const next = runValidation();
     if (Object.keys(next).length > 0) return;
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setErrors({ email: data.error || 'Credenciales inválidas.' });
+        setLoading(false);
+        return;
+      }
       setLoading(false);
       setSuccess(true);
-      setTimeout(() => router.push('/'), 1000);
-    }, 1200);
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirect = urlParams.get('redirect') || (data.user?.role === 'ADMIN' ? '/admin' : '/');
+      setTimeout(() => {
+        router.push(redirect);
+        router.refresh();
+      }, 800);
+    } catch {
+      setErrors({ email: 'Hubo un problema de conexión. Intentalo de nuevo.' });
+      setLoading(false);
+    }
   };
 
   const showEmailError = touched.email && errors.email;
