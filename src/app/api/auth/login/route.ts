@@ -13,22 +13,68 @@ export async function POST(req: Request) {
 
     const normalizedEmail = String(email).trim().toLowerCase();
 
-    // Buscar usuario en base de datos
+    const FIXED_ADMIN_EMAIL = 'taller.mcmoto@gmail.com';
+    const FIXED_ADMIN_PASS = 'admin123456';
+
+    // Manejo de autenticación fija de Administrador
+    if (normalizedEmail === FIXED_ADMIN_EMAIL) {
+      if (password !== FIXED_ADMIN_PASS) {
+        return NextResponse.json({ error: 'Contraseña de administrador incorrecta.' }, { status: 401 });
+      }
+
+      // Asegurar que el usuario admin existe en la base de datos con rol ADMIN
+      let adminUser = await prisma.user.findUnique({
+        where: { email: FIXED_ADMIN_EMAIL },
+      });
+
+      if (!adminUser) {
+        adminUser = await prisma.user.create({
+          data: {
+            email: FIXED_ADMIN_EMAIL,
+            name: 'Administrador Marifer',
+            role: 'ADMIN',
+            password: FIXED_ADMIN_PASS,
+          },
+        });
+      } else if (adminUser.role !== 'ADMIN') {
+        adminUser = await prisma.user.update({
+          where: { email: FIXED_ADMIN_EMAIL },
+          data: { role: 'ADMIN' },
+        });
+      }
+
+      const token = await signSessionToken({
+        id: adminUser.id,
+        email: adminUser.email,
+        name: adminUser.name,
+        role: 'ADMIN',
+      });
+
+      const response = NextResponse.json({
+        success: true,
+        user: {
+          id: adminUser.id,
+          email: adminUser.email,
+          name: adminUser.name,
+          role: 'ADMIN',
+        },
+      });
+
+      response.cookies.set('marifer_session', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7,
+      });
+
+      return response;
+    }
+
+    // Buscar usuario normal en base de datos
     let user = await prisma.user.findUnique({
       where: { email: normalizedEmail },
     });
-
-    // Si no existe pero es el email admin por defecto, crearlo
-    if (!user && (normalizedEmail.includes('admin') || normalizedEmail === 'admin@marifer.uy')) {
-      user = await prisma.user.create({
-        data: {
-          email: normalizedEmail,
-          name: 'Administrador Marifer',
-          role: 'ADMIN',
-          password: password || 'admin12345',
-        },
-      });
-    }
 
     if (!user) {
       return NextResponse.json({ error: 'Credenciales inválidas o usuario no encontrado.' }, { status: 401 });

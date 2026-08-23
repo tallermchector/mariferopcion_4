@@ -82,6 +82,17 @@ export async function main() {
     },
   });
 
+  // Crear usuario admin fijo
+  await prisma.user.create({
+    data: {
+      id: 'usr-admin',
+      email: 'taller.mcmoto@gmail.com',
+      name: 'Administrador Marifer',
+      role: 'ADMIN',
+      password: 'admin123456',
+    },
+  });
+
   if (items.length > 0) {
     // 1. Extraer categorías del CSV
     const categoryMap = new Map<string, { id: string; name: string; slug: string; image: string }>();
