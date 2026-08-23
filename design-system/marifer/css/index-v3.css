@@ -1,0 +1,595 @@
+/* ==========================================================================
+   Tienda Marifer — Versión 3 (Calidez Orgánica, Tactilidad & Curaduría de Regalos)
+   Archivo: css/index-v3.css
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--surface-canvas);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 10% 15%, rgba(243, 238, 245, 0.8) 0%, transparent 40%),
+    radial-gradient(circle at 90% 85%, rgba(217, 125, 84, 0.05) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+/* ── 1. Topbar Sostenible y Cercana ── */
+.mf-warm-topbar {
+  background: var(--violet-900);
+  color: var(--violet-100);
+  font-size: var(--text-caption);
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.mf-warm-topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+}
+
+.mf-city-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-tag);
+  font-weight: var(--weight-bold);
+}
+
+/* ── 2. Header Flotante con Glassmorphism Suave ── */
+.mf-warm-header {
+  position: sticky;
+  top: 12px;
+  z-index: 80;
+  margin: 0 var(--space-16);
+}
+
+.mf-warm-header-box {
+  background: rgba(253, 251, 247, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(80, 42, 85, 0.12);
+  border-radius: var(--radius-pill);
+  padding: 8px var(--space-24);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-20);
+  box-shadow: 0 8px 30px rgba(80, 42, 85, 0.06);
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.mf-warm-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  text-decoration: none;
+}
+
+.mf-warm-logo-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1.5px solid var(--violet-300);
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mf-warm-logo-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mf-warm-brand-text {
+  font-family: var(--font-logo);
+  font-size: 1.75rem;
+  color: var(--violet-700);
+  font-style: italic;
+  line-height: 1;
+}
+
+.mf-warm-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-24);
+}
+
+.mf-warm-nav a {
+  color: var(--violet-900);
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
+  text-decoration: none;
+  transition: color var(--dur-fast);
+}
+
+.mf-warm-nav a:hover {
+  color: var(--terracotta-accent);
+}
+
+.mf-warm-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+}
+
+.mf-icon-bubble {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid var(--border-hairline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--violet-700);
+  cursor: pointer;
+  position: relative;
+  transition: all var(--dur-fast);
+}
+
+.mf-icon-bubble:hover {
+  background: var(--violet-100);
+  transform: translateY(-1px);
+}
+
+.mf-bubble-pill {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: var(--terracotta-accent);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+}
+
+/* ── 3. Hero Asimétrico: Canvas Editorial Cálido ── */
+.mf-warm-hero {
+  padding: var(--space-48) 0 var(--space-64);
+}
+
+.mf-warm-hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: var(--space-48);
+  align-items: center;
+}
+
+.mf-hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-tag);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--terracotta-accent);
+  letter-spacing: var(--tracking-tag);
+  margin-bottom: var(--space-16);
+}
+
+.mf-warm-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+  line-height: 1.15;
+  color: var(--violet-950);
+  margin-bottom: var(--space-20);
+}
+
+.mf-warm-hero-title span {
+  font-family: var(--font-logo);
+  color: var(--terracotta-accent);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.mf-warm-hero-desc {
+  font-size: var(--text-lead);
+  color: var(--neutral-700);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-32);
+  max-width: 50ch;
+}
+
+.mf-warm-cta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.mf-btn-warm-terracotta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 var(--space-28);
+  background: var(--terracotta-accent);
+  color: #ffffff;
+  font-weight: var(--weight-bold);
+  font-size: var(--text-small);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(217, 125, 84, 0.35);
+  transition: all var(--dur-base);
+  border: none;
+  cursor: pointer;
+}
+
+.mf-btn-warm-terracotta:hover {
+  background: var(--terracotta-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(217, 125, 84, 0.45);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.mf-btn-warm-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 var(--space-24);
+  background: #ffffff;
+  color: var(--violet-700);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-small);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-default);
+  text-decoration: none;
+  transition: all var(--dur-fast);
+}
+
+.mf-btn-warm-outline:hover {
+  background: var(--violet-100);
+  border-color: var(--violet-400);
+  text-decoration: none;
+}
+
+/* Composición Visual Collage Hero */
+.mf-hero-collage {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: var(--space-16);
+  position: relative;
+}
+
+.mf-collage-card-large {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-hairline);
+  aspect-ratio: 3/4;
+  position: relative;
+  background: var(--violet-100);
+}
+
+.mf-collage-card-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.mf-collage-card-large:hover img {
+  transform: scale(1.04);
+}
+
+.mf-collage-card-small {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.mf-collage-thumb {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 1/1;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-hairline);
+  background: #ffffff;
+}
+
+.mf-collage-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mf-gift-ribbon-badge {
+  background: var(--violet-100);
+  border-radius: var(--radius-lg);
+  padding: var(--space-16);
+  border: 1px dashed var(--violet-300);
+  text-align: center;
+}
+
+.mf-gift-ribbon-badge span {
+  font-family: var(--font-logo);
+  font-size: 1.15rem;
+  color: var(--violet-700);
+  font-style: italic;
+  display: block;
+}
+
+/* ── 4. Colecciones en Tarjetas Esculpidas ── */
+.mf-warm-section {
+  padding: var(--space-56) 0;
+}
+
+.mf-warm-section-title {
+  text-align: center;
+  max-width: 580px;
+  margin: 0 auto var(--space-40);
+}
+
+.mf-warm-section-title h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  color: var(--violet-950);
+  margin-top: var(--space-6);
+}
+
+.mf-warm-section-title p {
+  font-size: var(--text-body-size);
+  color: var(--neutral-600);
+  margin-top: var(--space-8);
+}
+
+.mf-curated-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-32);
+}
+
+.mf-curated-card {
+  background: #ffffff;
+  border-radius: var(--radius-card);
+  padding: var(--space-32);
+  border: 1px solid var(--border-hairline);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: var(--space-24);
+  align-items: center;
+  transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base);
+}
+
+.mf-curated-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.mf-curated-img {
+  aspect-ratio: 1/1;
+  border-radius: var(--radius-image);
+  overflow: hidden;
+  background: var(--neutral-50);
+  box-shadow: var(--shadow-xs);
+}
+
+.mf-curated-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.mf-curated-card:hover .mf-curated-img img {
+  transform: scale(1.05);
+}
+
+/* ── 5. Catálogo de Destacados con Precios Claros ── */
+.mf-products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-24);
+}
+
+.mf-product-warm-card {
+  background: #ffffff;
+  border-radius: var(--radius-card);
+  padding: var(--space-16);
+  border: 1px solid var(--border-hairline);
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  flex-direction: column;
+  transition: all var(--dur-base) var(--ease-out);
+}
+
+.mf-product-warm-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--violet-300);
+}
+
+.mf-product-warm-media {
+  aspect-ratio: 1/1;
+  border-radius: var(--radius-image);
+  overflow: hidden;
+  background: var(--violet-100);
+  margin-bottom: var(--space-12);
+  position: relative;
+}
+
+.mf-product-warm-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.mf-product-warm-card:hover .mf-product-warm-media img {
+  transform: scale(1.06);
+}
+
+.mf-warm-chip {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(253, 251, 247, 0.95);
+  color: var(--violet-700);
+  font-size: var(--text-tag);
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-tag);
+  box-shadow: var(--shadow-xs);
+}
+
+.mf-product-warm-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--violet-950);
+  font-weight: 700;
+  margin-bottom: var(--space-6);
+  line-height: 1.25;
+}
+
+.mf-product-warm-desc {
+  font-size: var(--text-caption);
+  color: var(--neutral-600);
+  margin-bottom: var(--space-16);
+  line-height: 1.4;
+}
+
+.mf-product-warm-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-12);
+  border-top: 1px solid var(--border-hairline);
+}
+
+.mf-price-uyu {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--violet-900);
+}
+
+/* ── 6. Banner Relacional & Dedicatoria en Empaque ── */
+.mf-warm-banner-wrap {
+  background: var(--surface-secondary);
+  border-radius: var(--radius-card);
+  padding: var(--space-48);
+  margin: var(--space-56) 0;
+  border: 1px solid rgba(80, 42, 85, 0.08);
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: var(--space-40);
+  align-items: center;
+}
+
+.mf-warm-banner-text h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.3rem);
+  color: var(--violet-950);
+  margin-bottom: var(--space-12);
+}
+
+.mf-warm-banner-text p {
+  font-size: var(--text-body-size);
+  color: var(--neutral-700);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-24);
+}
+
+.mf-contact-card-white {
+  background: #ffffff;
+  padding: var(--space-28);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-hairline);
+  text-align: center;
+}
+
+/* ── 7. Footer Cálido ── */
+.mf-warm-footer {
+  background: var(--violet-950);
+  color: var(--violet-200);
+  padding: var(--space-56) 0 var(--space-32);
+}
+
+.mf-warm-footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+  gap: var(--space-40);
+  margin-bottom: var(--space-40);
+}
+
+.mf-footer-brand-title {
+  font-family: var(--font-logo);
+  font-size: 2.2rem;
+  color: #ffffff;
+  font-style: italic;
+  margin-bottom: var(--space-8);
+}
+
+.mf-warm-footer h4 {
+  color: #ffffff;
+  font-size: var(--text-h4);
+  margin-bottom: var(--space-16);
+}
+
+.mf-warm-footer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.mf-warm-footer-list a {
+  color: var(--violet-300);
+  font-size: var(--text-small);
+  text-decoration: none;
+  transition: color var(--dur-fast);
+}
+
+.mf-warm-footer-list a:hover {
+  color: var(--terracotta-accent);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .mf-warm-hero-grid { grid-template-columns: 1fr; }
+  .mf-curated-grid { grid-template-columns: 1fr; }
+  .mf-products-grid { grid-template-columns: repeat(2, 1fr); }
+  .mf-warm-banner-wrap { grid-template-columns: 1fr; }
+  .mf-warm-footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .mf-warm-nav { display: none; }
+  .mf-curated-card { grid-template-columns: 1fr; }
+  .mf-products-grid { grid-template-columns: 1fr; }
+  .mf-warm-footer-grid { grid-template-columns: 1fr; }
+  .mf-hero-collage { grid-template-columns: 1fr; }
+}

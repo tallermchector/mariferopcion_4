@@ -1,0 +1,909 @@
+/* ==========================================================================
+   Tienda Marifer — Versión 2 (Atelier Editorial & Curaduría de Autor)
+   Archivo: css/index-v2.css
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--surface-canvas);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── 1. Barra de Noticia y Conexión ── */
+.mf-atelier-bar {
+  background: var(--violet-950);
+  color: var(--violet-200);
+  font-size: var(--text-caption);
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mf-atelier-bar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+}
+
+.mf-badge-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: var(--weight-medium);
+}
+
+.mf-pulse-dot {
+  width: 7px;
+  height: 7px;
+  background-color: var(--terracotta-accent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(217, 125, 84, 0.4);
+  animation: pulse-dot 2.2s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.7; }
+}
+
+/* ── 2. Header Minimalista Editorial ── */
+.mf-nav-header {
+  background: rgba(253, 251, 247, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  border-bottom: 1px solid var(--border-hairline);
+  transition: box-shadow var(--dur-base) var(--ease-standard);
+}
+
+.mf-nav-inner {
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-24);
+}
+
+.mf-brand-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  text-decoration: none;
+}
+
+.mf-brand-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1.5px solid var(--violet-300);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  box-shadow: var(--shadow-xs);
+}
+
+.mf-brand-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mf-brand-title {
+  font-family: var(--font-logo);
+  font-size: 1.85rem;
+  color: var(--violet-700);
+  line-height: 1;
+  font-style: italic;
+}
+
+.mf-brand-subtitle {
+  font-size: var(--text-tag);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  font-weight: var(--weight-bold);
+  color: var(--neutral-500);
+  margin-top: 2px;
+  display: block;
+}
+
+.mf-nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-24);
+}
+
+.mf-nav-item {
+  color: var(--violet-900);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-small);
+  text-decoration: none;
+  position: relative;
+  padding: 6px 0;
+  transition: color var(--dur-fast);
+}
+
+.mf-nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--terracotta-accent);
+  transition: width var(--dur-base) var(--ease-out);
+}
+
+.mf-nav-item:hover {
+  color: var(--terracotta-accent);
+  text-decoration: none;
+}
+
+.mf-nav-item:hover::after {
+  width: 100%;
+}
+
+.mf-header-cta-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+}
+
+.mf-cart-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-hairline);
+  background: #ffffff;
+  color: var(--violet-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all var(--dur-fast);
+}
+
+.mf-cart-btn:hover {
+  background: var(--violet-100);
+  border-color: var(--violet-300);
+}
+
+.mf-cart-pill {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--terracotta-accent);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  min-width: 19px;
+  height: 19px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+}
+
+/* ── 3. Hero Editorial Magazine (Gran Impacto Visual) ── */
+.mf-hero-editorial {
+  padding: var(--space-48) 0 var(--space-72);
+  position: relative;
+}
+
+.mf-hero-editorial-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: var(--space-40);
+  align-items: center;
+}
+
+.mf-hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  background: var(--violet-100);
+  color: var(--violet-700);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-tag);
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-tag);
+  margin-bottom: var(--space-20);
+  border: 1px solid rgba(80, 42, 85, 0.08);
+}
+
+.mf-hero-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.3rem, 4vw, 3.4rem);
+  line-height: 1.12;
+  color: var(--violet-950);
+  margin-bottom: var(--space-20);
+  letter-spacing: -0.02em;
+}
+
+.mf-hero-heading em {
+  font-family: var(--font-logo);
+  font-weight: 400;
+  color: var(--terracotta-accent);
+  font-style: italic;
+}
+
+.mf-hero-paragraph {
+  font-size: var(--text-lead);
+  color: var(--neutral-700);
+  line-height: var(--leading-relaxed);
+  max-width: 48ch;
+  margin-bottom: var(--space-32);
+}
+
+.mf-cta-stack {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+/* Botones de Estilo con Spring Physics */
+.mf-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  height: 50px;
+  padding: 0 var(--space-32);
+  background: var(--terracotta-accent);
+  color: #ffffff;
+  font-weight: var(--weight-bold);
+  font-size: var(--text-body-size);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(217, 125, 84, 0.3);
+  transition: transform var(--dur-base) var(--ease-spring), background var(--dur-fast), box-shadow var(--dur-base) var(--ease-out);
+  border: none;
+  cursor: pointer;
+  will-change: transform;
+}
+
+.mf-btn-primary:hover {
+  background: var(--terracotta-hover);
+  transform: var(--lift-hover);
+  box-shadow: 0 8px 22px rgba(217, 125, 84, 0.42);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.mf-btn-primary:active {
+  transform: var(--press-scale);
+  box-shadow: 0 2px 8px rgba(217, 125, 84, 0.25);
+}
+
+.mf-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  height: 50px;
+  padding: 0 var(--space-24);
+  background: #ffffff;
+  color: var(--violet-700);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-body-size);
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--violet-300);
+  text-decoration: none;
+  transition: transform var(--dur-base) var(--ease-spring), background var(--dur-fast), border-color var(--dur-fast);
+  will-change: transform;
+}
+
+.mf-btn-secondary:hover {
+  background: var(--violet-100);
+  border-color: var(--violet-700);
+  transform: var(--lift-hover);
+  text-decoration: none;
+  color: var(--violet-900);
+}
+
+.mf-btn-secondary:active {
+  transform: var(--press-scale);
+}
+
+/* Hero Visual: Galería Modular Flotante */
+.mf-hero-gallery {
+  position: relative;
+}
+
+.mf-gallery-main {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(80, 42, 85, 0.1);
+  position: relative;
+  aspect-ratio: 4/3;
+  background: var(--violet-100);
+}
+
+.mf-gallery-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.mf-gallery-main:hover img {
+  transform: scale(1.03);
+}
+
+.mf-gallery-card-caption {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  background: rgba(253, 251, 247, 0.94);
+  backdrop-filter: blur(10px);
+  padding: var(--space-12) var(--space-16);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-hairline);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mf-gallery-float-seal {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: var(--shadow-md);
+  border: 2px solid var(--terracotta-soft);
+  padding: 6px;
+  animation: float-rotate 24s infinite linear;
+  z-index: 10;
+}
+
+.mf-gallery-float-seal img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@keyframes float-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── 4. Marquee de Compromiso Artesanal ── */
+.mf-marquee-wrap {
+  background: var(--violet-100);
+  border-top: 1px solid rgba(80, 42, 85, 0.08);
+  border-bottom: 1px solid rgba(80, 42, 85, 0.08);
+  padding: 14px 0;
+  overflow: hidden;
+  display: flex;
+}
+
+.mf-marquee-content {
+  display: flex;
+  gap: var(--space-48);
+  white-space: nowrap;
+  animation: marquee-scroll 32s linear infinite;
+}
+
+.mf-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  color: var(--violet-900);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.mf-marquee-item svg {
+  color: var(--terracotta-accent);
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── 5. Curator's Collections: Split Banners Asimétricos ── */
+.mf-section-spacer {
+  padding: var(--space-72) 0;
+}
+
+.mf-curator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: var(--space-36);
+  flex-wrap: wrap;
+  gap: var(--space-16);
+}
+
+.mf-curator-header h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  color: var(--violet-950);
+  margin-top: 4px;
+}
+
+.mf-split-collections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-32);
+}
+
+.mf-split-card {
+  position: relative;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--border-hairline);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-base) var(--ease-spring), box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-fast);
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+.mf-split-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(80, 42, 85, 0.09);
+  border-color: var(--violet-300);
+}
+
+.mf-split-img-box {
+  aspect-ratio: 16/10;
+  position: relative;
+  overflow: hidden;
+  background: var(--violet-100);
+}
+
+.mf-split-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+  will-change: transform;
+}
+
+.mf-split-card:hover .mf-split-img-box img {
+  transform: scale(1.04) rotate(0.4deg);
+}
+
+.mf-split-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: rgba(253, 251, 247, 0.96);
+  backdrop-filter: blur(8px);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-tag);
+  font-weight: var(--weight-bold);
+  color: var(--violet-700);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-tag);
+  box-shadow: var(--shadow-xs);
+  border: 1px solid rgba(80, 42, 85, 0.08);
+}
+
+.mf-split-body {
+  padding: var(--space-28);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.mf-split-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--violet-950);
+  margin-bottom: var(--space-8);
+}
+
+.mf-split-body p {
+  font-size: var(--text-body-size);
+  color: var(--neutral-600);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-24);
+}
+
+/* ── 6. Lookbook & Grilla de Productos de Autor ── */
+.mf-lookbook-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-24);
+}
+
+.mf-lookbook-item {
+  background: #ffffff;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border-hairline);
+  padding: var(--space-16);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--dur-base) var(--ease-spring), box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-fast);
+  box-shadow: var(--shadow-xs);
+  will-change: transform;
+}
+
+.mf-lookbook-item:hover {
+  transform: var(--lift-hover);
+  box-shadow: 0 10px 24px rgba(80, 42, 85, 0.08);
+  border-color: var(--violet-300);
+}
+
+.mf-lookbook-media {
+  aspect-ratio: 1/1;
+  border-radius: var(--radius-image);
+  overflow: hidden;
+  background: var(--neutral-50);
+  margin-bottom: var(--space-12);
+  position: relative;
+}
+
+.mf-lookbook-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+  will-change: transform;
+}
+
+.mf-lookbook-item:hover .mf-lookbook-media img {
+  transform: scale(1.05);
+}
+
+.mf-artisan-stamp {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--terracotta-accent);
+  color: #ffffff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mf-lookbook-meta {
+  font-size: var(--text-tag);
+  color: var(--terracotta-accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.mf-lookbook-title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--violet-950);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: var(--space-6);
+}
+
+.mf-lookbook-desc {
+  font-size: var(--text-caption);
+  color: var(--neutral-600);
+  margin-bottom: var(--space-16);
+  line-height: 1.4;
+}
+
+.mf-lookbook-bottom {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-12);
+  border-top: 1px solid var(--border-hairline);
+}
+
+.mf-lookbook-price {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--violet-900);
+}
+
+/* ── 7. Banner de Curaduría & Experiencia Taller (Atelier) ── */
+.mf-atelier-banner {
+  background: linear-gradient(135deg, var(--violet-950) 0%, var(--violet-800) 100%);
+  color: #ffffff;
+  border-radius: var(--radius-card);
+  padding: var(--space-48);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: var(--space-72);
+  box-shadow: var(--shadow-lg);
+}
+
+.mf-atelier-banner::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -10%;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(217, 125, 84, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.mf-atelier-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: var(--space-40);
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.mf-atelier-content h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  color: #ffffff;
+  margin-bottom: var(--space-16);
+}
+
+.mf-atelier-content p {
+  font-size: var(--text-body-size);
+  color: var(--violet-200);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-28);
+  max-width: 52ch;
+}
+
+.mf-perks-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-16);
+  margin-bottom: var(--space-32);
+}
+
+.mf-perk-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+  font-size: var(--text-small);
+  color: #ffffff;
+  font-weight: var(--weight-medium);
+}
+
+.mf-perk-item svg {
+  color: var(--terracotta-accent);
+  flex-shrink: 0;
+}
+
+.mf-card-dialog {
+  background: rgba(253, 251, 247, 0.98);
+  color: var(--violet-950);
+  padding: var(--space-32);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+
+.mf-card-dialog-icon {
+  width: 54px;
+  height: 54px;
+  background: var(--terracotta-soft);
+  color: var(--terracotta-accent);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-16);
+}
+
+.mf-card-dialog h4 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--violet-950);
+  margin-bottom: var(--space-8);
+}
+
+.mf-card-dialog p {
+  font-size: var(--text-small);
+  color: var(--neutral-600);
+  line-height: 1.5;
+  margin-bottom: var(--space-20);
+}
+
+/* ── 8. Footer Editorial ── */
+.mf-footer-editorial {
+  background: var(--neutral-900);
+  color: var(--violet-200);
+  padding: var(--space-56) 0 var(--space-32);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mf-footer-inner-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+  gap: var(--space-40);
+  margin-bottom: var(--space-40);
+}
+
+.mf-footer-logo-title {
+  font-family: var(--font-logo);
+  font-size: 2.2rem;
+  color: #ffffff;
+  font-style: italic;
+  margin-bottom: var(--space-8);
+}
+
+.mf-footer-text {
+  font-size: var(--text-small);
+  color: var(--violet-300);
+  line-height: var(--leading-relaxed);
+  max-width: 36ch;
+}
+
+.mf-footer-col h5 {
+  color: #ffffff;
+  font-size: var(--text-h4);
+  margin-bottom: var(--space-16);
+}
+
+.mf-footer-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.mf-footer-menu a {
+  color: var(--violet-300);
+  font-size: var(--text-small);
+  text-decoration: none;
+  transition: color var(--dur-fast);
+}
+
+.mf-footer-menu a:hover {
+  color: var(--terracotta-accent);
+}
+
+/* ── 9. Botón Flotante y Carrito Drawer ── */
+.mf-floating-contact {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  background: var(--terracotta-accent);
+  color: #ffffff;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 8px 24px rgba(217, 125, 84, 0.45);
+  text-decoration: none;
+  font-weight: var(--weight-bold);
+  font-size: var(--text-small);
+  transition: all var(--dur-fast);
+}
+
+.mf-floating-contact:hover {
+  transform: translateY(-3px) scale(1.02);
+  background: var(--terracotta-hover);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* Drawer */
+.mf-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--surface-overlay);
+  backdrop-filter: blur(6px);
+  z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-slow);
+}
+
+.mf-drawer-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mf-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+  transform: translateX(100%);
+  transition: transform var(--dur-panel) var(--ease-out);
+  display: flex;
+  flex-direction: column;
+}
+
+.mf-drawer.is-open {
+  transform: translateX(0);
+}
+
+.mf-drawer-head {
+  padding: var(--space-20);
+  border-bottom: 1px solid var(--border-hairline);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mf-drawer-list {
+  padding: var(--space-20);
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.mf-drawer-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-12);
+  background: var(--neutral-50);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-hairline);
+}
+
+.mf-drawer-item img {
+  width: 54px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.mf-drawer-foot {
+  padding: var(--space-20);
+  border-top: 1px solid var(--border-hairline);
+  background: #ffffff;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .mf-hero-editorial-grid { grid-template-columns: 1fr; }
+  .mf-lookbook-grid { grid-template-columns: repeat(2, 1fr); }
+  .mf-atelier-grid { grid-template-columns: 1fr; }
+  .mf-footer-inner-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .mf-split-collections { grid-template-columns: 1fr; }
+  .mf-lookbook-grid { grid-template-columns: 1fr; }
+  .mf-nav-links { display: none; }
+  .mf-perks-list { grid-template-columns: 1fr; }
+  .mf-footer-inner-grid { grid-template-columns: 1fr; }
+}

@@ -32,12 +32,15 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Columna Comprar: Vestidos, Blusas, Abrigos, Rebajas */}
+          {/* Columna Comprar */}
           <div className="space-y-3">
             <h4 className="font-display font-bold text-white text-[15px] tracking-wide">
               Comprar
             </h4>
             <ul className="space-y-2 text-[14px] text-[#e3cde8]">
+              <li>
+                <Link href="/products" className="hover:text-white transition-colors">Todas las prendas</Link>
+              </li>
               <li>
                 <Link href="/products?category=vestidos" className="hover:text-white transition-colors">Vestidos</Link>
               </li>
@@ -45,69 +48,58 @@ export function Footer() {
                 <Link href="/products?category=blusas" className="hover:text-white transition-colors">Blusas</Link>
               </li>
               <li>
-                <Link href="/products?category=abrigos" className="hover:text-white transition-colors">Abrigos</Link>
-              </li>
-              <li>
                 <Link href="/products?sort=sale" className="text-[#caa8d3] font-semibold hover:underline hover:text-white transition-colors">
-                  Rebajas
+                  Rebajas de temporada
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Columna Ayuda: Envíos, Cambios y devoluciones, Guía de talles, Contacto */}
+          {/* Columna Confianza y Servicio */}
           <div className="space-y-3">
             <h4 className="font-display font-bold text-white text-[15px] tracking-wide">
-              Ayuda
+              Servicio
             </h4>
             <ul className="space-y-2 text-[14px] text-[#e3cde8]">
               <li>
-                <Link href="/products?category=vestidos" className="hover:text-white transition-colors">
-                  Envíos y entregas
-                </Link>
+                <span className="text-[#e3cde8]/90 block">Envíos a todo el país</span>
               </li>
               <li>
-                <Link href="/products?category=blusas" className="hover:text-white transition-colors">
-                  Cambios y devoluciones
-                </Link>
+                <span className="text-[#e3cde8]/90 block">Cambios gratis 30 días</span>
               </li>
+              <li>
+                <span className="text-[#e3cde8]/90 block">6 cuotas sin recargo</span>
+              </li>
+              <li>
+                <span className="text-[#caa8d3] block">contacto@marifer.uy</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Columna Categorías */}
+          <div className="space-y-3">
+            <h4 className="font-display font-bold text-white text-[15px] tracking-wide">
+              Colección
+            </h4>
+            <ul className="space-y-2 text-[14px] text-[#e3cde8]">
               <li>
                 <Link href="/products?category=pantalones" className="hover:text-white transition-colors">
-                  Guía de talles
+                  Pantalones
                 </Link>
               </li>
               <li>
                 <Link href="/products?category=abrigos" className="hover:text-white transition-colors">
-                  Contacto
+                  Abrigos
                 </Link>
               </li>
-            </ul>
-          </div>
-
-          {/* Columna Marifer: Categorías reales */}
-          <div className="space-y-3">
-            <h4 className="font-display font-bold text-white text-[15px] tracking-wide">
-              Categorías
-            </h4>
-            <ul className="space-y-2 text-[14px] text-[#e3cde8]">
               <li>
                 <Link href="/products?category=camisas" className="hover:text-white transition-colors">
                   Camisas
                 </Link>
               </li>
               <li>
-                <Link href="/products?category=polleras" className="hover:text-white transition-colors">
-                  Polleras
-                </Link>
-              </li>
-              <li>
                 <Link href="/products?sort=newest" className="hover:text-white transition-colors">
                   Novedades
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?sort=sale" className="text-[#caa8d3] font-semibold hover:underline hover:text-white transition-colors">
-                  Rebajas
                 </Link>
               </li>
             </ul>

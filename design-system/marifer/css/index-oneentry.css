@@ -1,0 +1,627 @@
+/* ==========================================================================
+   OneEntry Shop — Design System Stylesheet
+   Archivo: css/index-oneentry.css
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700&family=Baloo+2:wght@400;700;800&display=swap');
+
+:root {
+  /* ── Color Palette Oficial de Marifer en OneEntry Architecture ── */
+  --oe-canvas-lino:       #FDFBF7;
+  --oe-foreground:        #4C4D56;
+  --oe-text-dark:         #19091B;
+  --oe-text-secondary:    #525252;
+  --oe-muted:             #817E80;
+  --oe-surface:           #F3EEF5;
+  --oe-card-surface:      #FFFFFF;
+  --oe-background:        #FDFBF7;
+  
+  --oe-violet-brand:      #502A55;
+  --oe-primary:           #D97D54; /* Terracota Cálido Teja Oficial */
+  --oe-primary-hover:     #C46840; /* Terracota Hover Intenso */
+  --oe-accent:            #DFA84A; /* Dorado Botánico */
+  --oe-highlight-glow:    rgba(217, 125, 84, 0.45); /* Terracota Radial Glow */
+
+  --oe-border:            rgba(80, 42, 85, 0.12);
+  --oe-border-light:      rgba(80, 42, 85, 0.08);
+  --oe-border-stone:      #D6D3D1;
+
+  --oe-radius-btn:        30px;
+  --oe-radius-card:       20px;
+  --oe-radius-pill:       9999px;
+
+  --oe-max-width:         1240px;
+}
+
+/* ── Keyframes Oficiales & Micro-interacciones ── */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes skeletonFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes toastSlideIn {
+  0% { transform: translateY(100px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Radial Hover Glow (Terracota Cálido Marifer) ── */
+.block-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--oe-radius-card);
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+
+.block-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(80, 42, 85, 0.12);
+}
+
+.block-card .radial-hover {
+  opacity: 0;
+  transform-origin: 50% 50%;
+  background: radial-gradient(50% 50%, var(--oe-highlight-glow), rgba(217, 125, 84, 0));
+  width: 300px;
+  height: 300px;
+  transition: opacity 0.3s ease-in-out, transform 0.35s ease-in-out;
+  position: absolute;
+  bottom: -120px;
+  left: -50px;
+  transform: scale(0);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.block-card:hover .radial-hover {
+  opacity: 0.95;
+  transform: scale(1.4);
+}
+
+.block-card img {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.block-card:hover img {
+  transform: scale(1.08);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--oe-background);
+  color: var(--oe-foreground);
+  font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.oe-container {
+  max-width: var(--oe-max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ── 1. Top Navbar / Header ── */
+.oe-header {
+  background: var(--oe-background);
+  border-bottom: 1px solid var(--oe-border-light);
+  position: sticky;
+  top: 0;
+  z-index: 60;
+}
+
+.oe-header-inner {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.oe-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: var(--oe-text-dark);
+  letter-spacing: -0.02em;
+}
+
+.oe-logo-badge {
+  background: var(--oe-primary);
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: var(--oe-radius-pill);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.oe-search-bar {
+  flex: 1;
+  max-width: 480px;
+  position: relative;
+}
+
+.oe-search-input {
+  width: 100%;
+  height: 44px;
+  background: var(--oe-surface);
+  border: 1px solid var(--oe-border-light);
+  border-radius: var(--oe-radius-btn);
+  padding: 0 20px 0 44px;
+  font-size: 0.95rem;
+  color: var(--oe-text-dark);
+  outline: none;
+  transition: border-color 300ms, background 300ms;
+}
+
+.oe-search-input:focus {
+  background: #ffffff;
+  border-color: var(--oe-primary);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+
+.oe-search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--oe-muted);
+  pointer-events: none;
+  display: flex;
+}
+
+.oe-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.oe-icon-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--oe-surface);
+  border: 1px solid var(--oe-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--oe-foreground);
+  cursor: pointer;
+  position: relative;
+  transition: all 250ms ease;
+  text-decoration: none;
+}
+
+.oe-icon-btn:hover {
+  background: #ffffff;
+  border-color: var(--oe-primary);
+  color: var(--oe-primary);
+  transform: translateY(-2px);
+}
+
+.oe-count-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--oe-primary);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: var(--oe-radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+}
+
+/* ── 2. Buttons ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--oe-primary);
+  color: #ffffff;
+  border-radius: var(--oe-radius-btn);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 500ms ease, transform 200ms ease, box-shadow 300ms ease;
+}
+
+.btn-primary:hover {
+  background: var(--oe-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-lg {
+  height: 50px;
+  padding: 0 32px;
+  font-size: 1rem;
+}
+
+.btn-md {
+  height: 42px;
+  padding: 0 24px;
+}
+
+.btn-sm {
+  height: 36px;
+  padding: 0 16px;
+  font-size: 0.8rem;
+}
+
+.btn-o {
+  background: transparent;
+  border: 2px solid var(--oe-primary);
+  color: var(--oe-primary);
+  border-radius: var(--oe-radius-btn);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 300ms;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-o:hover {
+  background: var(--oe-primary);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* ── 3. Promotional Hero & Radial Hover Feature Card ── */
+.oe-hero {
+  padding: 40px 0 60px;
+}
+
+.oe-hero-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 24px;
+}
+
+.oe-hero-banner {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-radius: var(--oe-radius-card);
+  padding: 56px 48px;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.oe-hero-banner h1 {
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 900;
+  line-height: 1.15;
+  margin: 0 0 16px;
+  letter-spacing: -0.02em;
+}
+
+.oe-hero-banner p {
+  font-size: 1.15rem;
+  color: var(--oe-muted);
+  max-width: 44ch;
+  margin: 0 0 32px;
+}
+
+/* Block Card con Electric Magenta Radial Glow */
+.block-card {
+  background: #1e293b;
+  border-radius: var(--oe-radius-card);
+  padding: 36px 32px;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.block-card .radial-hover {
+  position: absolute;
+  inset: -100px;
+  background: radial-gradient(circle, var(--oe-highlight-magenta) 0%, transparent 65%);
+  opacity: 0;
+  transform: scale(0.3);
+  transition: opacity 350ms ease, transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.block-card:hover .radial-hover {
+  opacity: 0.28;
+  transform: scale(1);
+}
+
+.block-card h3 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin: 0 0 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.block-card p {
+  color: var(--oe-muted);
+  font-size: 0.95rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── 4. Product Cards ── */
+.oe-section {
+  padding: 40px 0 60px;
+}
+
+.oe-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 32px;
+}
+
+.oe-section-head h2 {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: var(--oe-text-dark);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.oe-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.product-card {
+  background: var(--oe-card-surface);
+  border-radius: var(--oe-radius-card);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid var(--oe-border-light);
+  transition: transform 300ms ease, box-shadow 500ms ease, border-color 300ms ease;
+  position: relative;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 35px -10px rgba(15, 23, 42, 0.1);
+  border-color: var(--oe-border);
+}
+
+.product-card-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.oe-sticker {
+  background: var(--oe-primary);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--oe-radius-pill);
+}
+
+.oe-sticker-sale {
+  background: var(--oe-accent);
+}
+
+.oe-favorite-btn {
+  background: #ffffff;
+  border: 1px solid var(--oe-border-light);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--oe-muted);
+  cursor: pointer;
+  transition: all 200ms;
+}
+
+.oe-favorite-btn:hover {
+  color: var(--oe-accent);
+  border-color: var(--oe-accent);
+  transform: scale(1.1);
+}
+
+.product-card-img-wrap {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.product-card-img-wrap img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 500ms ease;
+}
+
+.product-card:hover .product-card-img-wrap img {
+  transform: scale(1.06);
+}
+
+.product-card-title {
+  font-size: 0.95rem;
+  color: var(--oe-text-secondary);
+  font-weight: 600;
+  margin: 0 0 8px;
+  line-height: 1.35;
+  text-wrap: balance;
+  min-height: 38px;
+}
+
+.product-card-price {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--oe-text-dark);
+  margin-bottom: 16px;
+}
+
+.product-card .btn-primary {
+  width: 100%;
+}
+
+/* ── 5. Minimalist Underline Form Section ── */
+.oe-form-section {
+  background: var(--oe-surface);
+  border-radius: var(--oe-radius-card);
+  padding: 48px;
+  margin-bottom: 60px;
+}
+
+.oe-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.oe-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.oe-form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--oe-muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.oe-form-label span.req {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+.oe-form-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--oe-border-stone);
+  padding: 10px 0;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--oe-text-dark);
+  outline: none;
+  transition: border-color 300ms ease, color 300ms ease;
+}
+
+.oe-form-input:focus {
+  border-bottom-color: var(--oe-primary);
+  color: var(--oe-text-dark);
+}
+
+/* ── 6. Footer ── */
+.oe-footer {
+  background: #1e293b;
+  color: var(--oe-muted);
+  padding: 56px 0 32px;
+}
+
+.oe-footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.oe-footer h4 {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+.oe-footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.oe-footer-links a {
+  color: var(--oe-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 200ms;
+}
+
+.oe-footer-links a:hover {
+  color: var(--oe-primary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .oe-hero-grid { grid-template-columns: 1fr; }
+  .oe-catalog-grid { grid-template-columns: repeat(2, 1fr); }
+  .oe-footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 640px) {
+  .oe-catalog-grid { grid-template-columns: 1fr; }
+  .oe-form-grid { grid-template-columns: 1fr; }
+  .oe-search-bar { display: none; }
+  .oe-footer-grid { grid-template-columns: 1fr; }
+}

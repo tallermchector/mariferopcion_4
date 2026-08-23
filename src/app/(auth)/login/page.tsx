@@ -3,6 +3,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight, Lock, Mail, CheckCircle2 } from 'lucide-react';
@@ -61,8 +62,18 @@ export default function LoginPage() {
         transition={{ duration: reduceMotion ? 0 : 0.4 }}
         className="w-full max-w-md bg-white rounded-[28px] border border-[#e8e3ec] p-8 shadow-marifer-hover space-y-6"
       >
-        <div className="text-center space-y-2">
-          <span className="font-logo italic text-[34px] text-[#452453] leading-none block">Marifer</span>
+        <div className="text-center space-y-3">
+          <Link href="/" className="inline-block group mx-auto">
+            <div className="relative h-11 w-32 mx-auto transition-transform group-hover:scale-105 duration-200">
+              <Image
+                src="/logo_marifer_1.png"
+                alt="MARIFER"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+          </Link>
           <h1 className="font-display text-2xl font-extrabold text-[#241230] tracking-tight">
             Iniciá sesión
           </h1>

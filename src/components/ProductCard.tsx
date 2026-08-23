@@ -56,13 +56,13 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <div
       id={`product-card-${product.id}`}
-      className="group relative flex flex-col justify-between rounded-[14px] bg-[#ffffff] p-3 border border-[#e8e3ec] shadow-marifer-sm hover:-translate-y-0.5 hover:shadow-marifer-hover transition-all duration-200"
+      className="group relative flex flex-col justify-between rounded-[20px] bg-white p-4 border border-[#502A55]/10 shadow-sm hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
     >
       <div>
-        {/* Imagen 3:4 con radio 10px */}
+        {/* Imagen 1:1 o 3:4 con radio 14px */}
         <Link
           href={`/product/${product.id}`}
-          className="relative block aspect-[3/4] w-full overflow-hidden rounded-[10px] bg-[#f2e6f4]"
+          className="relative block aspect-square w-full overflow-hidden rounded-[14px] bg-[#FDFBF7] p-2"
           aria-label={`Ver ${product.name}`}
         >
           <Image
@@ -70,47 +70,46 @@ export function ProductCard({ product }: ProductCardProps) {
             alt={product.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover object-center group-hover:scale-105 transition-transform duration-300 ease-out"
+            className="object-cover object-center group-hover:scale-106 transition-transform duration-500 ease-out"
             referrerPolicy="no-referrer"
           />
 
-          {/* Badge píldora arriba-izquierda: rebaja / nuevo / envío gratis */}
-          <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5 z-10">
+          {/* Badge píldora arriba-izquierda: rebaja / nuevo / popular */}
+          <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
             {discountPercent ? (
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-bold tracking-wide bg-[#c23b64] text-white font-mono-tabular">
+              <span className="oe-sticker bg-[#D97D54] text-white">
                 -{discountPercent}%
               </span>
             ) : isNew ? (
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-bold tracking-wide bg-[#452453] text-white">
+              <span className="oe-sticker bg-[#D97D54] text-white">
                 Nuevo
               </span>
             ) : isFreeShipping ? (
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-bold tracking-wide bg-[#d4a15a] text-[#241230]">
-                Envío gratis
+              <span className="oe-sticker bg-[#DFA84A] text-[#19091B]">
+                Artesanal
               </span>
-            ) : null}
+            ) : (
+              <span className="oe-sticker bg-[#502A55] text-white">
+                Popular
+              </span>
+            )}
           </div>
         </Link>
 
         {/* Info de producto */}
-        <div className="pt-3 pb-1 space-y-1">
-          <span className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#7d7384] block">
-            {product.category?.name || 'Marifer'}
-          </span>
-
-          <Link href={`/product/${product.id}`} className="block group-hover:text-[#452453] transition-colors">
-            <h3 className="font-display text-[17px] font-bold text-[#241230] leading-snug line-clamp-1">
+        <div className="pt-3 pb-2 text-center space-y-1">
+          <Link href={`/product/${product.id}`} className="block group-hover:text-[#D97D54] transition-colors">
+            <h3 className="font-serif text-[16px] font-bold text-[#19091B] leading-snug line-clamp-2 min-h-[44px]">
               {product.name}
             </h3>
           </Link>
 
-          <div className="flex items-baseline gap-2 pt-0.5">
-            <span className="font-mono-tabular font-extrabold text-[20px] text-[#241230] leading-none">
+          <div className="flex items-center justify-center gap-2 pt-1">
+            <span className="font-mono-tabular font-extrabold text-[19px] text-[#502A55] leading-none">
               {formatPriceUYU(product.price)}
             </span>
             {product.compareAtPrice && (
-              <span className="font-mono-tabular text-[13px] text-[#7d7384] line-through">
-                <span className="sr-only">Antes </span>
+              <span className="font-mono-tabular text-[13px] text-[#817E80] line-through">
                 {formatPriceUYU(product.compareAtPrice)}
               </span>
             )}
@@ -118,43 +117,30 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
       </div>
 
-      {/* Fila inferior: swatches + talles + compra rápida */}
-      <div className="pt-2 mt-2 flex items-center justify-between gap-2 border-t border-[#e8e3ec]">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5" aria-hidden="true">
-            {colors.map((c, i) => (
-              <span
-                key={i}
-                className="w-3 h-3 rounded-full border border-[#241230]/10"
-                style={{ backgroundColor: c }}
-              />
-            ))}
-          </div>
-          <span className="text-[12px] font-medium text-[#7d7384]">S – L</span>
-        </div>
-
+      {/* Botón de compra OneEntry */}
+      <div className="pt-2">
         <button
           id={`add-to-cart-btn-${product.id}`}
           type="button"
           onClick={handleAddToCart}
           disabled={product.stock === 0}
-          className={`h-11 px-4 rounded-full text-[13px] font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
+          className={`w-full h-11 rounded-[30px] text-[13px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
             added
               ? 'bg-[#146043] text-white'
-              : 'bg-[#452453] text-white hover:bg-[#241230] shadow-marifer-btn'
-          } disabled:bg-[#f2e6f4] disabled:text-[#7d7384] disabled:shadow-none disabled:cursor-not-allowed`}
-          aria-label={`Agregar ${product.name} a la bolsa`}
+              : 'bg-[#D97D54] text-white hover:bg-[#C46840] hover:shadow-md'
+          } disabled:bg-[#f2e6f4] disabled:text-[#817E80] disabled:cursor-not-allowed`}
+          aria-label={`Agregar ${product.name} al carrito`}
           aria-live="polite"
         >
           {added ? (
             <>
               <Check className="h-4 w-4 stroke-[2.5]" aria-hidden="true" />
-              <span>Listo</span>
+              <span>Agregado</span>
             </>
           ) : (
             <>
               <ShoppingBag className="h-4 w-4 stroke-[2]" aria-hidden="true" />
-              <span>{isAlreadyInCart ? '+1' : 'Sumar'}</span>
+              <span>{isAlreadyInCart ? '+1 al Carrito' : 'Agregar al Carrito'}</span>
             </>
           )}
         </button>

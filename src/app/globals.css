@@ -69,6 +69,10 @@
   }
 }
 
+.font-serif {
+  font-family: var(--font-serif), serif;
+}
+
 .font-display {
   font-family: var(--font-outfit), sans-serif;
 }
@@ -84,6 +88,52 @@
 .font-mono-tabular {
   font-family: var(--font-mono), monospace;
   font-variant-numeric: tabular-nums;
+}
+
+/* ── Radial Hover Glow (Terracota Cálido OneEntry Marifer) ── */
+.block-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+
+.block-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(80, 42, 85, 0.12);
+}
+
+.block-card .radial-hover {
+  opacity: 0;
+  transform-origin: 50% 50%;
+  background: radial-gradient(50% 50%, rgba(217, 125, 84, 0.5), rgba(217, 125, 84, 0));
+  width: 320px;
+  height: 320px;
+  transition: opacity 0.3s ease-in-out, transform 0.35s ease-in-out;
+  position: absolute;
+  bottom: -100px;
+  left: -50px;
+  transform: scale(0);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.block-card:hover .radial-hover {
+  opacity: 0.95;
+  transform: scale(1.4);
+}
+
+.oe-sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 12px;
+  border-radius: 9999px;
 }
 
 /* Violet-tinted shadow system */

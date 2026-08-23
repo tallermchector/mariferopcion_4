@@ -86,17 +86,25 @@ export function Navbar() {
             <Link
               href="/"
               id="nav-brand-logo"
-              className="flex items-center gap-2.5 group py-1"
+              className="flex items-center gap-3 group py-1"
               aria-label="Marifer, ir al inicio"
             >
-              <div className="relative h-10 w-28 sm:h-11 sm:w-32 transition-transform group-hover:scale-105 duration-200">
+              <div className="relative h-10 w-10 sm:h-11 sm:w-11 transition-transform group-hover:scale-105 duration-200">
                 <Image
                   src="/logo_marifer_1.png"
                   alt="MARIFER"
                   fill
                   priority
-                  className="object-contain object-left"
+                  className="object-contain"
                 />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-serif font-black text-xl sm:text-2xl text-white tracking-tight leading-none">
+                  Marifer
+                </span>
+                <span className="font-logo italic text-[13px] text-[#caa8d3] -mt-0.5 leading-none">
+                  Para tu vida
+                </span>
               </div>
             </Link>
 

@@ -1,11 +1,18 @@
 // ./src/app/layout.tsx
 import type { Metadata } from 'next';
-import { Outfit, Manrope, Lobster_Two, JetBrains_Mono } from 'next/font/google';
+import { Outfit, Manrope, Lobster_Two, JetBrains_Mono, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { CartProvider } from '@/context/CartContext';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { CartDrawer } from '@/components/CartDrawer';
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-serif',
+  weight: ['400', '600', '700', '900'],
+  display: 'swap',
+});
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -54,10 +61,10 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`h-full ${outfit.variable} ${manrope.variable} ${lobsterTwo.variable} ${jetbrainsMono.variable}`}
+      className={`h-full ${playfair.variable} ${outfit.variable} ${manrope.variable} ${lobsterTwo.variable} ${jetbrainsMono.variable}`}
     >
       <body
-        className="flex min-h-full flex-col bg-[#fffcff] text-[#403945] antialiased selection:bg-[#452453]/15 selection:text-[#452453]"
+        className="flex min-h-full flex-col bg-[#FDFBF7] text-[#4C4D56] antialiased selection:bg-[#502A55]/15 selection:text-[#502A55]"
         suppressHydrationWarning
       >
         <CartProvider>
