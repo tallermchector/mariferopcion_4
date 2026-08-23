@@ -1,6 +1,6 @@
-// ./src/components/Footer.tsx
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export function Footer() {
   return (
@@ -9,10 +9,15 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12 pb-12 border-b border-[#452453]">
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="inline-block">
-              <span className="font-logo italic text-[31px] text-white leading-none hover:text-[#caa8d3] transition-colors">
-                Marifer
-              </span>
+            <Link href="/" className="inline-block group">
+              <div className="relative h-12 w-36 transition-transform group-hover:scale-105 duration-200">
+                <Image
+                  src="/logo_marifer_1.png"
+                  alt="MARIFER"
+                  fill
+                  className="object-contain object-left"
+                />
+              </div>
             </Link>
             <div className="text-[12px] font-bold tracking-[0.2em] text-[#caa8d3] uppercase">
               Moda · Tu ropa diaria

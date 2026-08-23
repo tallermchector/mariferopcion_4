@@ -99,8 +99,7 @@ export default async function HomePage() {
     return Math.max(max, Math.round(((p.compareAtPrice - p.price) / p.compareAtPrice) * 100));
   }, 0);
 
-  // Orden editorial de las 6 categorías; el conteo y la foto salen de la BD
-  const categoryOrder = ['vestidos', 'blusas', 'pantalones', 'abrigos', 'camisas', 'polleras'];
+  // Categorías principales ordenadas por cantidad de prendas para la grilla bento
   const categoryTiles = categories
     .map((c) => ({
       name: c.name,
@@ -108,7 +107,8 @@ export default async function HomePage() {
       count: c._count.products,
       image: c.image ?? `https://picsum.photos/seed/marifer-cat-${c.slug}/400/400`,
     }))
-    .sort((a, b) => categoryOrder.indexOf(a.slug) - categoryOrder.indexOf(b.slug));
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 6);
 
   const trustItems = [
     {
@@ -213,8 +213,19 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Columna Visual (col-span-5) con badge flotante */}
+            {/* Columna Visual (col-span-5) con marifer_texto_diagonal a la derecha y badge flotante */}
             <div className="lg:col-span-5 relative space-y-3">
+              {/* Elemento gráfico Marifer Texto Diagonal destacado a la derecha */}
+              <div className="absolute -top-12 -right-6 w-56 sm:w-72 h-32 sm:h-40 opacity-40 pointer-events-none select-none z-20">
+                <Image
+                  src="/marifer_texto_diagonal.png"
+                  alt="MARIFER"
+                  fill
+                  className="object-contain object-right-top drop-shadow-md"
+                  priority
+                />
+              </div>
+
               <div className="relative aspect-[4/5] w-full rounded-[28px] overflow-hidden bg-[#241230] border border-[#caa8d3]/20 shadow-marifer-hover group">
                 <Image
                   src="https://picsum.photos/seed/marifer-otono26/800/1000"
@@ -440,6 +451,56 @@ export default async function HomePage() {
                   referrerPolicy="no-referrer"
                 />
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* BANNER DE IDENTIDAD DE MARCA CON LOGO Y TEXTO DIAGONAL */}
+      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 pt-[clamp(3.5rem,6vw,5rem)]">
+        <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-r from-[#452453] via-[#351842] to-[#241230] text-white p-8 sm:p-12 lg:p-16 border border-[#caa8d3]/20 shadow-marifer-hover">
+          {/* Marca de agua diagonal en fondo */}
+          <div className="absolute -right-12 -bottom-16 w-96 h-64 opacity-20 pointer-events-none select-none">
+            <Image
+              src="/marifer_texto_diagonal.png"
+              alt=""
+              fill
+              className="object-contain"
+            />
+          </div>
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-8 space-y-4">
+              <div className="relative h-12 w-40 sm:h-14 sm:w-48 mb-2">
+                <Image
+                  src="/logo_marifer_1.png"
+                  alt="MARIFER"
+                  fill
+                  className="object-contain object-left"
+                />
+              </div>
+              <h3 className="font-display font-bold text-2xl sm:text-3xl lg:text-4xl text-white leading-tight">
+                Moda con identidad uruguaya, diseñada para sentirte vos misma todos los días.
+              </h3>
+              <p className="text-[#e3cde8] text-[15px] sm:text-[17px] font-body max-w-2xl leading-relaxed">
+                Cada prenda nace de un proceso de confección cuidado en Montevideo, con tejidos seleccionados para perdurar y brindarte el máximo confort.
+              </p>
+            </div>
+
+            <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-center">
+              <Link
+                href="/products"
+                className="h-[52px] px-8 rounded-full bg-white text-[#452453] text-[15px] font-bold hover:bg-[#f2e6f4] transition-all flex items-center justify-center gap-2 shadow-marifer-btn hover-lift"
+              >
+                <span>Descubrir prendas</span>
+                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+              </Link>
+              <Link
+                href="/products?sort=newest"
+                className="h-[52px] px-7 rounded-full border border-[#caa8d3]/50 text-white text-[15px] font-medium hover:bg-white/10 transition-colors flex items-center justify-center"
+              >
+                <span>Ver novedades</span>
+              </Link>
             </div>
           </div>
         </div>

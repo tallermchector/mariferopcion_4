@@ -3,6 +3,7 @@
 
 import React, { Suspense, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { ShoppingBag, Search, Menu, X, User } from 'lucide-react';
@@ -85,10 +86,18 @@ export function Navbar() {
             <Link
               href="/"
               id="nav-brand-logo"
-              className="font-logo italic text-[31px] text-white leading-none hover:text-[#caa8d3] transition-colors"
+              className="flex items-center gap-2.5 group py-1"
               aria-label="Marifer, ir al inicio"
             >
-              Marifer
+              <div className="relative h-10 w-28 sm:h-11 sm:w-32 transition-transform group-hover:scale-105 duration-200">
+                <Image
+                  src="/logo_marifer_1.png"
+                  alt="MARIFER"
+                  fill
+                  priority
+                  className="object-contain object-left"
+                />
+              </div>
             </Link>
 
             <Suspense fallback={null}>
